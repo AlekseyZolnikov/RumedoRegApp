@@ -1,4 +1,4 @@
-package ru.rumedo.homework1;
+package ru.rumedo.rumedoregapp;
 
 
 import android.os.Bundle;
