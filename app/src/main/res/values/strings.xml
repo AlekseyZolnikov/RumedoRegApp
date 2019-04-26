@@ -1,3 +1,10 @@
 <resources>
-    <string name="app_name">RumedoRegApp</string>
+    <string name="app_name">homework1</string>
+    <string name="menu_main_add">Добавить</string>
+    <string name="menu_main_statistic">Статистика</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_desc">Аватарка</string>
+    <string name="nav_header_title">Зольников Алексей</string>
+    <string name="nav_header_subtitle">Android Developer</string>
 </resources>
