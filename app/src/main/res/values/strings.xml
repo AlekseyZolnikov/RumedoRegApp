@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">homework1</string>
+    <string name="app_name">Rumedo Reg App</string>
     <string name="menu_main_add">Добавить</string>
     <string name="menu_main_statistic">Статистика</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -7,7 +7,9 @@
     <string name="nav_header_desc">Аватарка</string>
     <string name="nav_header_title">Зольников Алексей</string>
     <string name="nav_header_subtitle">Android Developer</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="nav_user_list">Список пользователей</string>
+    <string name="nav_user_reg">Регистрация пользователей</string>
+    <string name="nav_communication">Связь</string>
+    <string name="nav_feedback">Форма обратной связи</string>
+    <string name="nav_about">О разработчике</string>
 </resources>

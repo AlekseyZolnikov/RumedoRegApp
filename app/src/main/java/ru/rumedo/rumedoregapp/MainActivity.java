@@ -6,6 +6,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
@@ -16,7 +17,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
 
 import java.util.List;
 
@@ -83,13 +83,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 .commit();
     }
 
-    private void showFragment(Fragment fragment, Bundle bundle) {
-        fragment.setArguments(bundle);
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.main_activity_frame_layout, fragment)
-                .commit();
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -112,9 +105,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -123,15 +115,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void showTemperatureSensors(SensorEvent event) {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("Temp Sensor value = ").append(event.values[0]).append("\n");
-        mainFragment.setTemperatureValue(stringBuilder.toString());
+        mainFragment.setTemperatureValue("Temp Sensor value = " + event.values[0] + "\n");
     }
 
     private void showHumiditySensors(SensorEvent event) {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("Humidity Sensor value = ").append(event.values[0]).append("\n");
-        mainFragment.setHumidityValue(stringBuilder.toString());
+        mainFragment.setHumidityValue("Humidity Sensor value = " + event.values[0] + "\n");
 
     }
 
