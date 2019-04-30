@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".MainFragment">
 
@@ -15,5 +16,13 @@
         android:id="@+id/humidity_sensor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+
+    <ru.rumedo.rumedoregapp.CustomView
+        android:id="@+id/customView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cv_height="40"
+        app:cv_width="400"
+        app:cv_background="@color/colorAccent"/>
 
 </LinearLayout>
