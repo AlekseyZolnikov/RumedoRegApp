@@ -1,4 +1,4 @@
-package ru.rumedo.rumedoregapp;
+package ru.rumedo.rumedoregapp.view;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -10,6 +10,8 @@ import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.view.View;
+
+import ru.rumedo.rumedoregapp.R;
 
 public class CustomView extends View {
 

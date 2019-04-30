@@ -1,4 +1,4 @@
-package ru.rumedo.rumedoregapp;
+package ru.rumedo.rumedoregapp.activity;
 
 
 import android.hardware.Sensor;
@@ -19,6 +19,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import java.util.List;
+
+import ru.rumedo.rumedoregapp.R;
+import ru.rumedo.rumedoregapp.fragment.MainFragment;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
