@@ -51,7 +51,7 @@ public class CustomView extends View {
 
         setHeight(typedArray.getInteger(R.styleable.CustomView_cv_height, 100));
         setWidth(typedArray.getInteger(R.styleable.CustomView_cv_width, 100));
-        setBackground(typedArray.getInteger(R.styleable.CustomView_cv_background, Color.BLUE));
+        setBackground(typedArray.getColor(R.styleable.CustomView_cv_background, Color.BLUE));
 
         typedArray.recycle();
     }
