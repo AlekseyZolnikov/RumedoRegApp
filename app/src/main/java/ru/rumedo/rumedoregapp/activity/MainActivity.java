@@ -1,6 +1,7 @@
 package ru.rumedo.rumedoregapp.activity;
 
 
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -22,6 +23,8 @@ import java.util.List;
 
 import ru.rumedo.rumedoregapp.R;
 import ru.rumedo.rumedoregapp.fragment.MainFragment;
+import ru.rumedo.rumedoregapp.fragment.UserListFragment;
+import ru.rumedo.rumedoregapp.service.UserService;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
@@ -42,6 +45,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         sensors = sensorManager.getSensorList(Sensor.TYPE_ALL);
         temperature = sensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE);
         humidity = sensorManager.getDefaultSensor(Sensor.TYPE_RELATIVE_HUMIDITY);
+
+        startService(new Intent(MainActivity.this, UserService.class));
 
         Bundle bundle = new Bundle();
         bundle.putString(MainFragment.KEY_BUNDLE_SENSORS, getSensors());
@@ -68,6 +73,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onResume();
         sensorManager.registerListener(sensorHumidityListener, humidity, SensorManager.SENSOR_DELAY_NORMAL);
         sensorManager.registerListener(sensorTempListener, temperature, SensorManager.SENSOR_DELAY_NORMAL);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        sensorManager.unregisterListener(sensorHumidityListener, humidity);
+        sensorManager.unregisterListener(sensorTempListener, temperature);
     }
 
     private String getSensors() {
@@ -111,6 +123,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == R.id.nav_user_list) {
+            Fragment userListFragment = new UserListFragment();
+            showFragment(userListFragment);
+        }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
