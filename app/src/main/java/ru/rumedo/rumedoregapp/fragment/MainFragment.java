@@ -11,21 +11,11 @@ import android.widget.TextView;
 
 import ru.rumedo.rumedoregapp.R;
 
-
-/**
- * A simple {@link Fragment} subclass.
- */
 public class MainFragment extends Fragment {
-
 
     public static final String KEY_BUNDLE_SENSORS = "KEY_BUNDLE_SENSORS";
     private TextView tempSensor;
     private TextView humiditySensor;
-
-    public MainFragment() {
-        // Required empty public constructor
-    }
-
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -45,7 +35,5 @@ public class MainFragment extends Fragment {
     public void setHumidityValue(String value) {
         humiditySensor.setText(value);
     }
-
-
 
 }
