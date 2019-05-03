@@ -46,8 +46,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         temperature = sensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE);
         humidity = sensorManager.getDefaultSensor(Sensor.TYPE_RELATIVE_HUMIDITY);
 
-        startService(new Intent(MainActivity.this, UserService.class));
-
         Bundle bundle = new Bundle();
         bundle.putString(MainFragment.KEY_BUNDLE_SENSORS, getSensors());
         mainFragment = new MainFragment();

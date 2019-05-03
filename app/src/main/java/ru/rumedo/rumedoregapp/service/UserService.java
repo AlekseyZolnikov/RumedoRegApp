@@ -3,12 +3,11 @@ package ru.rumedo.rumedoregapp.service;
 import android.app.IntentService;
 import android.content.Intent;
 import android.support.annotation.Nullable;
-
-import java.util.ArrayList;
-
-import ru.rumedo.rumedoregapp.entity.User;
+import android.util.Log;
 
 public class UserService extends IntentService {
+
+    private static final String TAG = "UserService";
 
     public UserService() {
         super("UserService");
@@ -19,8 +18,8 @@ public class UserService extends IntentService {
         getUserList();
     }
 
-    private ArrayList<User> getUserList() {
-        return new ArrayList<>();
+    private void getUserList() {
+        Log.d(TAG, "getUserList");
     }
 
 
