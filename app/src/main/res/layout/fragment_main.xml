@@ -1,28 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     tools:context=".fragment.MainFragment">
 
     <TextView
         android:id="@+id/temp_sensor"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="0dp" />
 
     <TextView
         android:id="@+id/humidity_sensor"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/temp_sensor"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <TextView
+        android:id="@+id/text_user_administrator"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/humidity_sensor"
+        android:text="@string/user_admin"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <EditText
+        android:id="@+id/edit_user_administrator"
+        app:layout_constraintTop_toBottomOf="@+id/text_user_administrator"
+        android:layout_width="match_parent"
+        android:inputType="text"
+        android:layout_height="wrap_content"
+        android:imeOptions="actionDone"/>
+    <Button
+        android:id="@+id/save_preference"
+        app:layout_constraintTop_toBottomOf="@+id/edit_user_administrator"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/save_preference"/>
 
     <ru.rumedo.rumedoregapp.view.CustomView
         android:id="@+id/customView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:cv_height="40"
-        app:cv_width="400"
-        app:cv_background="@color/colorAccent"/>
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        app:cv_background="@color/colorAccent"
+        app:layout_constraintTop_toBottomOf="@+id/save_preference" />
 
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>
