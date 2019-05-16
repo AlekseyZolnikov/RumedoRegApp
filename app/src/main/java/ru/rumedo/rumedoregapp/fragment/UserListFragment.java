@@ -62,7 +62,6 @@ public class UserListFragment extends Fragment {
                         "Пользователь " + i,
                         "с фамилией № " + i,
                         "dog" + i + "@bark.uw"
-
                 ));
             }
             return null;
