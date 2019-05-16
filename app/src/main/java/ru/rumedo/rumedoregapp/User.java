@@ -1,4 +1,4 @@
-package ru.rumedo.rumedoregapp.entity;
+package ru.rumedo.rumedoregapp;
 
 public class User {
     private String name;

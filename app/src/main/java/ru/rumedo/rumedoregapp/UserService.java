@@ -1,4 +1,4 @@
-package ru.rumedo.rumedoregapp.service;
+package ru.rumedo.rumedoregapp;
 
 import android.app.IntentService;
 import android.content.Intent;

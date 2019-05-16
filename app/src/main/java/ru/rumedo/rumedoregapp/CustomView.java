@@ -1,4 +1,4 @@
-package ru.rumedo.rumedoregapp.view;
+package ru.rumedo.rumedoregapp;
 
 import android.annotation.TargetApi;
 import android.content.Context;

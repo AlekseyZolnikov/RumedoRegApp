@@ -1,4 +1,4 @@
-package ru.rumedo.rumedoregapp.adapter;
+package ru.rumedo.rumedoregapp;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -8,9 +8,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-
-import ru.rumedo.rumedoregapp.R;
-import ru.rumedo.rumedoregapp.entity.User;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.MyViewHolder> {
 

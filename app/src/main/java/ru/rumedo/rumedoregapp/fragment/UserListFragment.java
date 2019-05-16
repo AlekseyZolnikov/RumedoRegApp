@@ -15,10 +15,9 @@ import android.widget.ProgressBar;
 import java.util.ArrayList;
 
 import ru.rumedo.rumedoregapp.R;
-import ru.rumedo.rumedoregapp.activity.MainActivity;
-import ru.rumedo.rumedoregapp.adapter.UserAdapter;
-import ru.rumedo.rumedoregapp.entity.User;
-import ru.rumedo.rumedoregapp.service.UserService;
+import ru.rumedo.rumedoregapp.UserAdapter;
+import ru.rumedo.rumedoregapp.User;
+import ru.rumedo.rumedoregapp.UserService;
 
 public class UserListFragment extends Fragment {
 
