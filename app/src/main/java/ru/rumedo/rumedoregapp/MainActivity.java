@@ -10,6 +10,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 
 import ru.rumedo.rumedoregapp.fragment.MainFragment;
 import ru.rumedo.rumedoregapp.fragment.RegistrationFragment;
@@ -38,6 +39,30 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        View userFragment = findViewById(R.id.fragment_user);
+        View userListFragment = findViewById(R.id.fragment_user_list);
+        View userRegistrationFragment = findViewById(R.id.fragment_registration_user);
+
+        if (drawer.isDrawerOpen(GravityCompat.START)){
+            drawer.closeDrawer(GravityCompat.START);
+        }else if(userFragment != null) {
+            Fragment fragment = new UserListFragment();
+            showFragment(fragment);
+        } else if(userListFragment != null) {
+            Fragment fragment = new MainFragment();
+            showFragment(fragment);
+        } else if(userRegistrationFragment != null) {
+            Fragment fragment = new MainFragment();
+            showFragment(fragment);
+        }else {
+            super.onBackPressed();
+        }
+
     }
 
 
