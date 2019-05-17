@@ -7,27 +7,11 @@
     tools:context=".fragment.MainFragment">
 
     <TextView
-        android:id="@+id/temp_sensor"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="0dp" />
-
-    <TextView
-        android:id="@+id/humidity_sensor"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/temp_sensor"
-        tools:layout_editor_absoluteX="0dp" />
-
-    <TextView
         android:id="@+id/text_user_administrator"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/humidity_sensor"
-        android:text="@string/user_admin"
-        tools:layout_editor_absoluteX="0dp" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="@string/user_admin" />
 
     <EditText
         android:id="@+id/edit_user_administrator"
@@ -42,13 +26,5 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/save_preference"/>
-
-    <ru.rumedo.rumedoregapp.CustomView
-        android:id="@+id/customView"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="8dp"
-        app:cv_background="@color/colorAccent"
-        app:layout_constraintTop_toBottomOf="@+id/save_preference" />
 
 </android.support.constraint.ConstraintLayout>

@@ -20,8 +20,6 @@ public class MainFragment extends Fragment {
 
     public static final String KEY_BUNDLE_SENSORS = "KEY_BUNDLE_SENSORS";
     private static final String KEY_ADMIN = "KEY_ADMIN";
-    private TextView tempSensor;
-    private TextView humiditySensor;
     private Button savePrefs;
     private EditText adminEditText;
     private SharedPreferences sharedPref;
@@ -31,8 +29,6 @@ public class MainFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_main, container, false);
-        tempSensor = view.findViewById(R.id.temp_sensor);
-        humiditySensor = view.findViewById(R.id.humidity_sensor);
         savePrefs = view.findViewById(R.id.save_preference);
         adminEditText = view.findViewById(R.id.edit_user_administrator);
 
@@ -71,12 +67,5 @@ public class MainFragment extends Fragment {
         adminEditText.setText(adminName);
     }
 
-    public void setTemperatureValue(String value) {
-        tempSensor.setText(value);
-    }
-
-    public void setHumidityValue(String value) {
-        humiditySensor.setText(value);
-    }
 
 }

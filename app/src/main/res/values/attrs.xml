@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <declare-styleable name="CustomView">
-        <attr name="cv_width" format="integer"/>
-        <attr name="cv_height" format="integer"/>
-        <attr name="cv_background" format="color"/>
-    </declare-styleable>
-</resources>
