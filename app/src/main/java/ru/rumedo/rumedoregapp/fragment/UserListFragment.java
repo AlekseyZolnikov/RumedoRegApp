@@ -24,12 +24,13 @@ import ru.rumedo.rumedoregapp.UserService;
 public class UserListFragment extends Fragment {
 
     private ArrayList<User> itemUserArrayList;
+    public View view;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_user_list, container, false);
+        view = inflater.inflate(R.layout.fragment_user_list, container, false);
 
         getActivity().startService(new Intent(getActivity(), UserService.class));
 
@@ -40,7 +41,7 @@ public class UserListFragment extends Fragment {
     }
 
     private void initRecyclerView() {
-        RecyclerView recyclerView = getView().findViewById(R.id.recycler_user_list);
+        RecyclerView recyclerView = view.findViewById(R.id.recycler_user_list);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
         UserAdapter userAdapter = new UserAdapter(itemUserArrayList, mOnRecyclerViewClickListener);
@@ -75,7 +76,7 @@ public class UserListFragment extends Fragment {
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
             initRecyclerView();
-            ProgressBar progressBar = getView().findViewById(R.id.recycler_user_progress);
+            ProgressBar progressBar = view.findViewById(R.id.recycler_user_progress);
             progressBar.setVisibility(View.INVISIBLE);
         }
     }
