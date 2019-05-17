@@ -1,6 +1,7 @@
 package ru.rumedo.rumedoregapp.fragment;
 
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -45,6 +46,7 @@ public class UserListFragment extends Fragment {
         recyclerView.setAdapter(userAdapter);
     }
 
+    @SuppressLint("StaticFieldLeak")
     class CreateUserList extends AsyncTask<Void,Void,Void> {
 
         @Override
@@ -55,12 +57,14 @@ public class UserListFragment extends Fragment {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            for (int i = 1; i <= 2000000; i++) {
+            for (int i = 1; i <= 2000; i++) {
 
                 itemUserArrayList.add(new User(
                         "Пользователь " + i,
                         "с фамилией № " + i,
-                        "dog" + i + "@bark.uw"
+                        "dog" + i + "@bark.uw",
+                        "89655896985",
+                        "IACMAC"
                 ));
             }
             return null;

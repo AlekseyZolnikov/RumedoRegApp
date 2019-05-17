@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragment.RegistrationFragment">
+
+    <TextView
+        android:id="@+id/reg_event_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="@string/reg_event" />
+
+    <EditText
+        android:id="@+id/reg_event_field"
+        app:layout_constraintTop_toBottomOf="@+id/reg_event_label"
+        android:layout_width="match_parent"
+        android:inputType="text"
+        android:hint="@string/enter_event"
+        android:layout_height="wrap_content"
+        android:imeOptions="actionDone"/>
+
+    <TextView
+        android:id="@+id/reg_name_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/reg_event_field"
+        android:text="@string/reg_name_label" />
+
+    <EditText
+        android:id="@+id/reg_name_field"
+        app:layout_constraintTop_toBottomOf="@+id/reg_name_label"
+        android:layout_width="match_parent"
+        android:inputType="text"
+        android:hint="@string/reg_name_field"
+        android:layout_height="wrap_content"
+        android:imeOptions="actionDone"/>
+
+    <TextView
+        android:id="@+id/reg_surname_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/reg_name_field"
+        android:text="@string/reg_surname_label" />
+
+    <EditText
+        android:id="@+id/reg_surname_field"
+        app:layout_constraintTop_toBottomOf="@+id/reg_surname_label"
+        android:layout_width="match_parent"
+        android:inputType="text"
+        android:hint="@string/reg_surname_field"
+        android:layout_height="wrap_content"
+        android:imeOptions="actionDone"/>
+
+    <TextView
+        android:id="@+id/reg_email_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/reg_surname_field"
+        android:text="@string/reg_email_label" />
+
+    <EditText
+        android:id="@+id/reg_email_field"
+        app:layout_constraintTop_toBottomOf="@+id/reg_email_label"
+        android:layout_width="match_parent"
+        android:inputType="textEmailAddress"
+        android:hint="@string/reg_email_field"
+        android:layout_height="wrap_content"
+        android:imeOptions="actionDone"/>
+
+    <TextView
+        android:id="@+id/reg_phone_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/reg_email_field"
+        android:text="@string/reg_phone_label" />
+
+    <EditText
+        android:id="@+id/reg_phone_field"
+        app:layout_constraintTop_toBottomOf="@+id/reg_phone_label"
+        android:layout_width="match_parent"
+        android:inputType="phone"
+        android:hint="@string/reg_phone_field"
+        android:layout_height="wrap_content"
+        android:imeOptions="actionDone"/>
+
+    <Button
+        android:id="@+id/save_preference"
+        app:layout_constraintTop_toBottomOf="@+id/reg_phone_field"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/reg_btn"
+        android:background="@color/colorPrimary"
+        android:textColor="@color/colorWhite"/>
+
+</android.support.constraint.ConstraintLayout>

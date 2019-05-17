@@ -1,39 +1,40 @@
 package ru.rumedo.rumedoregapp;
 
+import java.util.Calendar;
+import java.util.Date;
+
 public class User {
-    private String name;
-    private String surname;
-    private String email;
+    private final String name;
+    private final String surname;
+    private final String email;
+    private final String phone;
+    private final String event;
+    private final Date regdate;
 
 
-    public User(String name, String surname, String email) {
+    public User(String name, String surname, String email, String phone, String event) {
         this.name = name;
         this.surname = surname;
         this.email = email;
+        this.phone = phone;
+        this.event = event;
+        this.regdate = Calendar.getInstance().getTime();
     }
-
 
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getSurname() {
         return surname;
     }
 
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
     public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public String getRegdate() {
+        return regdate.toString();
     }
+
 }
