@@ -37,4 +37,7 @@ public class User {
         return regdate.toString();
     }
 
+    public String getPhone() {
+        return phone;
+    }
 }
