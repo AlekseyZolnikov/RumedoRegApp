@@ -15,8 +15,9 @@ import android.widget.ProgressBar;
 
 import java.util.ArrayList;
 
+import ru.rumedo.rumedoregapp.Apapter.OnRecyclerViewClickListener;
 import ru.rumedo.rumedoregapp.R;
-import ru.rumedo.rumedoregapp.UserAdapter;
+import ru.rumedo.rumedoregapp.Apapter.UserAdapter;
 import ru.rumedo.rumedoregapp.User;
 import ru.rumedo.rumedoregapp.UserService;
 
@@ -42,7 +43,7 @@ public class UserListFragment extends Fragment {
         RecyclerView recyclerView = getView().findViewById(R.id.recycler_user_list);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
-        UserAdapter userAdapter = new UserAdapter(itemUserArrayList);
+        UserAdapter userAdapter = new UserAdapter(itemUserArrayList, mOnRecyclerViewClickListener);
         recyclerView.setAdapter(userAdapter);
     }
 
@@ -78,6 +79,29 @@ public class UserListFragment extends Fragment {
             progressBar.setVisibility(View.INVISIBLE);
         }
     }
+
+    OnRecyclerViewClickListener mOnRecyclerViewClickListener = new OnRecyclerViewClickListener() {
+        @Override
+        public void showSingleItemInFragment(User user) {
+
+            String name = user.getName();
+            String surname = user.getSurname();
+            String email = user.getEmail();
+            String phone = user.getPhone();
+
+            Fragment fragment = new UserFragment();
+
+            Bundle bundle = new Bundle();
+            bundle.putString("KEY_USER_NAME", name);
+            bundle.putString("KEY_USER_SURNAME", surname);
+            bundle.putString("KEY_USER_EMAIL", email);
+            bundle.putString("KEY_USER_PHONE", phone);
+            fragment.setArguments(bundle);
+            getFragmentManager().beginTransaction()
+                    .replace(R.id.main_activity_frame_layout, fragment)
+                    .commit();
+        }
+    };
 
 
 }
