@@ -62,9 +62,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }else {
             super.onBackPressed();
         }
-
     }
-
 
     private void showFragment(Fragment fragment) {
         getSupportFragmentManager().beginTransaction()
