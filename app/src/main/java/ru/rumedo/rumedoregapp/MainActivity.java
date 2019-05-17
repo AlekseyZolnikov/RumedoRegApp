@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import ru.rumedo.rumedoregapp.fragment.MainFragment;
+import ru.rumedo.rumedoregapp.fragment.RegistrationFragment;
 import ru.rumedo.rumedoregapp.fragment.UserListFragment;
 
 
@@ -55,6 +56,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (id == R.id.nav_user_list) {
             Fragment userListFragment = new UserListFragment();
             showFragment(userListFragment);
+        }else if(id == R.id.nav_user_registration) {
+            Fragment registrationFragment = new RegistrationFragment();
+            showFragment(registrationFragment);
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

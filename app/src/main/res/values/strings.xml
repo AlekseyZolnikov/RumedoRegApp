@@ -18,4 +18,18 @@
     <string name="surname">Surname</string>
     <string name="email">Email</string>
     <string name="reg_date">reg date</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="reg_event">Событие</string>
+    <string name="enter_event">Мероприятие</string>
+    <string name="reg_name_field">Введите имя</string>
+    <string name="reg_name_label">Имя</string>
+    <string name="reg_btn">Зарегистрировать</string>
+    <string name="reg_surname_label">Фамилия</string>
+    <string name="reg_surname_field">Введите фамилию</string>
+    <string name="reg_email_label">E-mail</string>
+    <string name="reg_email_field">Введите E-mail</string>
+    <string name="reg_phone_label">Телефон</string>
+    <string name="reg_phone_field">Введите телефон</string>
 </resources>

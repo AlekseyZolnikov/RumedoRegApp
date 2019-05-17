@@ -39,18 +39,21 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.MyViewHolder> 
         final TextView nameView;
         final TextView surnameView;
         final TextView emailView;
+        final TextView regdateView;
 
         private MyViewHolder(@NonNull View itemView) {
             super(itemView);
             nameView = itemView.findViewById(R.id.user_item_name);
             surnameView = itemView.findViewById(R.id.user_item_surname);
             emailView = itemView.findViewById(R.id.user_item_email);
+            regdateView = itemView.findViewById(R.id.user_item_regdate);
         }
 
         private void bind(int position) {
             nameView.setText(itemUser.get(position).getName());
             surnameView.setText(itemUser.get(position).getSurname());
             emailView.setText(itemUser.get(position).getEmail());
+            regdateView.setText(itemUser.get(position).getRegdate());
         }
     }
 }

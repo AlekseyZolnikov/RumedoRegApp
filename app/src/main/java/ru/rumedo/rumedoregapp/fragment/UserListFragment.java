@@ -62,7 +62,9 @@ public class UserListFragment extends Fragment {
                 itemUserArrayList.add(new User(
                         "Пользователь " + i,
                         "с фамилией № " + i,
-                        "dog" + i + "@bark.uw"
+                        "dog" + i + "@bark.uw",
+                        "89655896985",
+                        "IACMAC"
                 ));
             }
             return null;
