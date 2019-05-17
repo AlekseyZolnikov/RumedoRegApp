@@ -57,7 +57,7 @@ public class UserListFragment extends Fragment {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            for (int i = 1; i <= 2000000; i++) {
+            for (int i = 1; i <= 2000; i++) {
 
                 itemUserArrayList.add(new User(
                         "Пользователь " + i,

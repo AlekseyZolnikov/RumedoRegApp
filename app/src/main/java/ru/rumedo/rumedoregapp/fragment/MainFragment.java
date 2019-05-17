@@ -1,6 +1,7 @@
 package ru.rumedo.rumedoregapp.fragment;
 
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import ru.rumedo.rumedoregapp.R;
+import ru.rumedo.rumedoregapp.UserService;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -25,7 +27,7 @@ public class MainFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_main, container, false);
+        final View view = inflater.inflate(R.layout.fragment_main, container, false);
         Button savePrefs = view.findViewById(R.id.save_preference);
         adminEditText = view.findViewById(R.id.edit_user_administrator);
 
@@ -33,11 +35,14 @@ public class MainFragment extends Fragment {
 
         loadPreferences(sharedPref);
 
+        Intent intent = new Intent(view.getContext(), UserService.class);
+        getActivity().startService(intent);
+
         savePrefs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 savePreferences(sharedPref);    // сохранить настройки
-                Snackbar.make(getView(), "Update Success", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "Update Success", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
 
