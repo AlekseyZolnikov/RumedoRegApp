@@ -1,6 +1,7 @@
 package ru.rumedo.rumedoregapp.fragment;
 
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -45,6 +46,7 @@ public class UserListFragment extends Fragment {
         recyclerView.setAdapter(userAdapter);
     }
 
+    @SuppressLint("StaticFieldLeak")
     class CreateUserList extends AsyncTask<Void,Void,Void> {
 
         @Override

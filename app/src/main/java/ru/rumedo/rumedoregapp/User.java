@@ -1,9 +1,9 @@
 package ru.rumedo.rumedoregapp;
 
 public class User {
-    private String name;
-    private String surname;
-    private String email;
+    private final String name;
+    private final String surname;
+    private final String email;
 
 
     public User(String name, String surname, String email) {
@@ -12,28 +12,16 @@ public class User {
         this.email = email;
     }
 
-
-    public String getName() {
+    String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSurname() {
+    String getSurname() {
         return surname;
     }
 
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
-    public String getEmail() {
+    String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
 }

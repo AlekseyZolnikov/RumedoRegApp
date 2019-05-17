@@ -1,10 +1,5 @@
 package ru.rumedo.rumedoregapp;
 
-
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -14,11 +9,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
-
-import java.util.List;
 
 import ru.rumedo.rumedoregapp.fragment.MainFragment;
 import ru.rumedo.rumedoregapp.fragment.UserListFragment;
@@ -26,15 +17,12 @@ import ru.rumedo.rumedoregapp.fragment.UserListFragment;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
-    private static final String TAG = "MainActivityTag";
-    private MainFragment mainFragment;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mainFragment = new MainFragment();
+        MainFragment mainFragment = new MainFragment();
         showFragment(mainFragment);
 
         Toolbar toolbar = findViewById(R.id.toolbar);

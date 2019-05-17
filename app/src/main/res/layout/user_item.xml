@@ -13,7 +13,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:text="Username"/>
+        android:text="@string/username"/>
 
     <TextView
         android:id="@+id/user_item_surname"
@@ -22,7 +22,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/user_item_name"
-        android:text="Surname"/>
+        android:text="@string/surname"/>
 
     <TextView
         android:id="@+id/user_item_email"
@@ -31,6 +31,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/user_item_surname"
-        android:text="Email"/>
+        android:text="@string/email"/>
 
 </android.support.constraint.ConstraintLayout>

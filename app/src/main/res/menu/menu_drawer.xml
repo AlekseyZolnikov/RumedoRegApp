@@ -9,7 +9,6 @@
             android:title="@string/nav_user_list"
             android:icon="@drawable/ic_user_list"/>
         <item
-            android:id="@+id/nav_user_reg"
             android:title="@string/nav_user_reg"
             android:icon="@drawable/ic_user_reg"/>
     </group>
@@ -18,11 +17,9 @@
         <menu>
             <group android:checkableBehavior="single">
                 <item
-                    android:id="@+id/nav_feedback"
                     android:title="@string/nav_feedback"
                     android:icon="@drawable/ic_feedback"/>
                 <item
-                    android:id="@+id/nav_about"
                     android:title="@string/nav_about"
                     android:icon="@drawable/ic_about"/>
             </group>

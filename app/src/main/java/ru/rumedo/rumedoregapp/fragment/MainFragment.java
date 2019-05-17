@@ -11,16 +11,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import ru.rumedo.rumedoregapp.R;
 
 import static android.content.Context.MODE_PRIVATE;
 
 public class MainFragment extends Fragment {
 
-    public static final String KEY_BUNDLE_SENSORS = "KEY_BUNDLE_SENSORS";
     private static final String KEY_ADMIN = "KEY_ADMIN";
-    private Button savePrefs;
     private EditText adminEditText;
     private SharedPreferences sharedPref;
 
@@ -29,7 +26,7 @@ public class MainFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_main, container, false);
-        savePrefs = view.findViewById(R.id.save_preference);
+        Button savePrefs = view.findViewById(R.id.save_preference);
         adminEditText = view.findViewById(R.id.edit_user_administrator);
 
         sharedPref = getActivity().getPreferences(MODE_PRIVATE);
