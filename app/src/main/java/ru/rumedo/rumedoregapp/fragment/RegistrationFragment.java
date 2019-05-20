@@ -126,6 +126,7 @@ public class RegistrationFragment extends Fragment {
 
                     regProgress.setVisibility(View.INVISIBLE);
                     returnStateBtn();
+                    clearEditText();
                 }
 
                 @Override
@@ -146,5 +147,12 @@ public class RegistrationFragment extends Fragment {
                 }
 
             });
+    }
+
+    private void clearEditText() {
+        regNameField.setText("");
+        regSurnameField.setText("");
+        regEmailField.setText("");
+        regPhoneField.setText("");
     }
 }
