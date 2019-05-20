@@ -2,6 +2,7 @@ package ru.rumedo.rumedoregapp.fragment;
 
 
 import android.content.SharedPreferences;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -32,6 +33,7 @@ public class RegistrationFragment extends Fragment {
     private EditText regSurnameField;
     private EditText regEmailField;
     private EditText regPhoneField;
+    private Button regButton;
     private ProgressBar regProgress;
     private SharedPreferences sharedPref;
     private APIService apiService;
@@ -39,9 +41,7 @@ public class RegistrationFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_registration, container, false);
-
         initRetrofit();
         initGui(view);
         initPreference();
@@ -56,11 +56,14 @@ public class RegistrationFragment extends Fragment {
     }
 
     private void initEvents(View view) {
-        Button regButton = view.findViewById(R.id.save_preference);
+        regButton = view.findViewById(R.id.save_preference);
         regButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
             savePreferences(sharedPref);
+
+            regButton.setClickable(false);
+            regButton.setBackgroundResource(R.color.colorDisabled);
 
             String event = regEventField.getText().toString();
             String name = regNameField.getText().toString();
@@ -122,6 +125,7 @@ public class RegistrationFragment extends Fragment {
                     }
 
                     regProgress.setVisibility(View.INVISIBLE);
+                    returnStateBtn();
                 }
 
                 @Override
@@ -132,7 +136,15 @@ public class RegistrationFragment extends Fragment {
                     Log.e("Retrofit", "request failed", throwable);
 
                     regProgress.setVisibility(View.INVISIBLE);
+                    returnStateBtn();
                 }
+
+                private void returnStateBtn() {
+
+                    regButton.setClickable(true);
+                    regButton.setBackgroundResource(R.color.colorPrimary);
+                }
+
             });
     }
 }
