@@ -39,7 +39,7 @@ public class MainFragment extends Fragment {
         ImageView imageView = view.findViewById(R.id.imageView);
         Picasso
                 .get()
-                .load("https://rumedo.ru/wp-content/themes/rumedo/images/logo-rumedo.jpg")
+                .load("https://rumedo.ru/wp-content/themes/rumedo/images/logo-rumedo.png")
                 .into(imageView);
 
         return view;
