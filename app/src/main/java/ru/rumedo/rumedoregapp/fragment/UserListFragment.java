@@ -1,12 +1,9 @@
 package ru.rumedo.rumedoregapp.fragment;
 
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,9 +11,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
-
-import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -31,7 +25,6 @@ import ru.rumedo.rumedoregapp.UserService;
 
 public class UserListFragment extends Fragment {
 
-    private ArrayList<User> itemUserArrayList;
     public View view;
     public ApiService apiService;
 
@@ -40,12 +33,9 @@ public class UserListFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.fragment_user_list, container, false);
-
         getActivity().startService(new Intent(getActivity(), UserService.class));
-
         initRetrofit();
         requestRetrofit();
-
         return view;
     }
 
@@ -65,11 +55,9 @@ public class UserListFragment extends Fragment {
                 public void onResponse(@NonNull Call<ApiRequest> call, @NonNull Response<ApiRequest> response) {
                     if (response.body() != null) {
                         Log.d("Retrofit", "onResponse: " + response.body().getUsers()[0].getName());
-                        CreateUserList userTask = new CreateUserList(response);
-                        userTask.execute();
+                        initRecyclerView(response.body().getUsers());
                     }
                 }
-
                 @Override
                 public void onFailure(@NonNull Call<ApiRequest> call,
                                       @NonNull Throwable throwable) {
@@ -78,51 +66,12 @@ public class UserListFragment extends Fragment {
             });
     }
 
-    private void initRecyclerView() {
+    private void initRecyclerView(User[] users) {
         RecyclerView recyclerView = view.findViewById(R.id.recycler_user_list);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
-        UserAdapter userAdapter = new UserAdapter(itemUserArrayList, mOnRecyclerViewClickListener);
+        UserAdapter userAdapter = new UserAdapter(users, mOnRecyclerViewClickListener);
         recyclerView.setAdapter(userAdapter);
-    }
-
-    @SuppressLint("StaticFieldLeak")
-    class CreateUserList extends AsyncTask<Void,Void,Void> {
-
-        Response<ApiRequest> response;
-        public CreateUserList(Response<ApiRequest> response) {
-            this.response = response;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            itemUserArrayList = new ArrayList<>();
-        }
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            User[] users = response.body().getUsers();
-            for (User user: users
-            ) {
-                itemUserArrayList.add(new User(
-                        user.getName(),
-                        user.getSurname(),
-                        user.getEmail(),
-                        user.getPhone(),
-                        user.getEvent()
-                ));
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void result) {
-            super.onPostExecute(result);
-            initRecyclerView();
-            ProgressBar progressBar = view.findViewById(R.id.recycler_user_progress);
-            progressBar.setVisibility(View.INVISIBLE);
-        }
     }
 
     OnRecyclerViewClickListener mOnRecyclerViewClickListener = new OnRecyclerViewClickListener() {
@@ -147,6 +96,4 @@ public class UserListFragment extends Fragment {
                     .commit();
         }
     };
-
-
 }

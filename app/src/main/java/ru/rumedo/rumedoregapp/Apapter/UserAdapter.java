@@ -14,10 +14,10 @@ import ru.rumedo.rumedoregapp.User;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.MyViewHolder> {
 
-    private final ArrayList<User> itemUser;
+    private final User[] itemUser;
     private OnRecyclerViewClickListener mOnRecyclerViewClickListener;
 
-    public UserAdapter(ArrayList<User> itemUser, OnRecyclerViewClickListener mOnRecyclerViewClickListener) {
+    public UserAdapter(User[] itemUser, OnRecyclerViewClickListener mOnRecyclerViewClickListener) {
         this.itemUser = itemUser;
         this.mOnRecyclerViewClickListener = mOnRecyclerViewClickListener;
     }
@@ -36,7 +36,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.MyViewHolder> 
 
     @Override
     public int getItemCount() {
-        return itemUser.size();
+        return itemUser.length;
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
@@ -59,17 +59,17 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.MyViewHolder> 
                 @Override
                 public void onClick(View v) {
                     int pos = getAdapterPosition();
-                    mOnRecyclerViewClickListener.showSingleItemInFragment(itemUser.get(pos));
+                    mOnRecyclerViewClickListener.showSingleItemInFragment(itemUser[pos]);
                 }
             });
 
         }
 
-        private void bind(int position) {
-            nameView.setText(itemUser.get(position).getName());
-            surnameView.setText(itemUser.get(position).getSurname());
-            emailView.setText(itemUser.get(position).getEmail());
-            regdateView.setText(itemUser.get(position).getRegdate());
+        private void bind(int pos) {
+            nameView.setText(itemUser[pos].getName());
+            surnameView.setText(itemUser[pos].getSurname());
+            emailView.setText(itemUser[pos].getEmail());
+            regdateView.setText(itemUser[pos].getRegdate());
         }
     }
 }
