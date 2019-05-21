@@ -2,7 +2,6 @@ package ru.rumedo.rumedoregapp.fragment;
 
 
 import android.content.SharedPreferences;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -36,7 +35,7 @@ public class RegistrationFragment extends Fragment {
     private Button regButton;
     private ProgressBar regProgress;
     private SharedPreferences sharedPref;
-    private APIService apiService;
+    private ApiService apiService;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -95,7 +94,7 @@ public class RegistrationFragment extends Fragment {
                 .baseUrl("https://rumedo.ru/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        apiService = retrofit.create(APIService.class);
+        apiService = retrofit.create(ApiService.class);
     }
 
     private void savePreferences(SharedPreferences sharedPref){
