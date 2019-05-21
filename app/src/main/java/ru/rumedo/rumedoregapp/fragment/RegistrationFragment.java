@@ -59,22 +59,22 @@ public class RegistrationFragment extends Fragment {
         regButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            savePreferences(sharedPref);
+                savePreferences(sharedPref);
 
-            regButton.setClickable(false);
-            regButton.setBackgroundResource(R.color.colorDisabled);
+                regButton.setClickable(false);
+                regButton.setBackgroundResource(R.color.colorDisabled);
 
-            String event = regEventField.getText().toString();
-            String name = regNameField.getText().toString();
-            String surname = regSurnameField.getText().toString();
-            String email = regEmailField.getText().toString();
-            String phone = regPhoneField.getText().toString();
+                String event = regEventField.getText().toString();
+                String name = regNameField.getText().toString();
+                String surname = regSurnameField.getText().toString();
+                String email = regEmailField.getText().toString();
+                String phone = regPhoneField.getText().toString();
 
-            User user = new User(name,surname,email,phone,event);
+                User user = new User(name,surname,email,phone,event);
 
-            regProgress.setVisibility(View.VISIBLE);
+                regProgress.setVisibility(View.VISIBLE);
 
-            requestRetrofit(user);
+                requestRetrofit(user);
             }
         });
     }

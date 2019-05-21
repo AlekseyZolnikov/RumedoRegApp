@@ -14,4 +14,8 @@ public interface ApiService {
             @Query("phone") String phone,
             @Query("event") String event
     );
+    @GET("users/list.php")
+    Call<ApiRequest> listUsers(
+        @Query("skey") String skey
+    );
 }

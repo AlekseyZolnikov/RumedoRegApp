@@ -5,9 +5,12 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +18,11 @@ import android.widget.ProgressBar;
 
 import java.util.ArrayList;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 import ru.rumedo.rumedoregapp.Apapter.OnRecyclerViewClickListener;
 import ru.rumedo.rumedoregapp.R;
 import ru.rumedo.rumedoregapp.Apapter.UserAdapter;
@@ -25,6 +33,7 @@ public class UserListFragment extends Fragment {
 
     private ArrayList<User> itemUserArrayList;
     public View view;
+    public ApiService apiService;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -34,10 +43,42 @@ public class UserListFragment extends Fragment {
 
         getActivity().startService(new Intent(getActivity(), UserService.class));
 
-        CreateUserList userTask = new CreateUserList();
-        userTask.execute();
+        initRetrofit();
+        requestRetrofit();
+
+//        CreateUserList userTask = new CreateUserList();
+//        userTask.execute();
 
         return view;
+    }
+
+    private void initRetrofit() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://rumedo.ru/api/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        apiService = retrofit.create(ApiService.class);
+    }
+
+    private void requestRetrofit() {
+        String skey = "rumedo_rest_api_key";
+        apiService.listUsers(skey)
+            .enqueue(new Callback<ApiRequest>() {
+                @Override
+                public void onResponse(@NonNull Call<ApiRequest> call, @NonNull Response<ApiRequest> response) {
+                    if (response.body() != null) {
+                        Log.d("Retrofit", "onResponse: " + response.body().getUsers()[0].getName());
+                        CreateUserList userTask = new CreateUserList(response);
+                        userTask.execute();
+                    }
+                }
+
+                @Override
+                public void onFailure(@NonNull Call<ApiRequest> call,
+                                      @NonNull Throwable throwable) {
+                    Log.e("Retrofit", "request failed", throwable);
+                }
+            });
     }
 
     private void initRecyclerView() {
@@ -51,6 +92,11 @@ public class UserListFragment extends Fragment {
     @SuppressLint("StaticFieldLeak")
     class CreateUserList extends AsyncTask<Void,Void,Void> {
 
+        Response<ApiRequest> response;
+        public CreateUserList(Response<ApiRequest> response) {
+            this.response = response;
+        }
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -59,14 +105,15 @@ public class UserListFragment extends Fragment {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            for (int i = 1; i <= 2000; i++) {
-
+            User[] users = response.body().getUsers();
+            for (User user: users
+            ) {
                 itemUserArrayList.add(new User(
-                        "Пользователь " + i,
-                        "с фамилией № " + i,
-                        "dog" + i + "@bark.uw",
-                        "89655896985",
-                        "IACMAC"
+                        user.getName(),
+                        user.getSurname(),
+                        user.getEmail(),
+                        user.getPhone(),
+                        user.getEvent()
                 ));
             }
             return null;
