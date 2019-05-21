@@ -24,8 +24,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        MainFragment mainFragment = new MainFragment();
-        showFragment(mainFragment);
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.main_activity_frame_layout);
+        if (fragment == null) {
+            fragment = new MainFragment();
+            showFragment(fragment);
+        }
+
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

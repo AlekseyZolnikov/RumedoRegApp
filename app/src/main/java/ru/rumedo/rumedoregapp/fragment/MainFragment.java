@@ -9,6 +9,10 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+
+import com.squareup.picasso.Picasso;
+
 import ru.rumedo.rumedoregapp.R;
 import ru.rumedo.rumedoregapp.UserService;
 
@@ -32,6 +36,11 @@ public class MainFragment extends Fragment {
             }
         });
 
+        ImageView imageView = view.findViewById(R.id.imageView);
+        Picasso
+                .get()
+                .load("https://rumedo.ru/wp-content/themes/rumedo/images/logo-rumedo.png")
+                .into(imageView);
 
         return view;
     }

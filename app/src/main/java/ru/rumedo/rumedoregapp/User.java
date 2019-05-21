@@ -40,4 +40,8 @@ public class User {
     public String getPhone() {
         return phone;
     }
+
+    public String getEvent() {
+        return event;
+    }
 }
