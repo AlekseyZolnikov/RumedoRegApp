@@ -124,14 +124,15 @@ public class RegistrationFragment extends Fragment {
                     if (response.body() != null) {
                         Snackbar.make(getView(), response.body().getMessage(), Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();
-                    }else {
-                        Snackbar.make(getView(), "API response is wrong", Snackbar.LENGTH_LONG)
-                                .setAction("Action", null).show();
+                        if (!response.body().getStatus().equals("rejected")) {
+                            clearEditText();
+                        }
+
+                        regProgress.setVisibility(View.INVISIBLE);
+                        returnStateBtn();
                     }
 
-                    regProgress.setVisibility(View.INVISIBLE);
-                    returnStateBtn();
-                    clearEditText();
+
                 }
 
                 @Override

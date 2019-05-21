@@ -46,9 +46,6 @@ public class UserListFragment extends Fragment {
         initRetrofit();
         requestRetrofit();
 
-//        CreateUserList userTask = new CreateUserList();
-//        userTask.execute();
-
         return view;
     }
 
