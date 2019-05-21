@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -56,6 +57,8 @@ public class UserListFragment extends Fragment {
                     if (response.body() != null) {
                         Log.d("Retrofit", "onResponse: " + response.body().getUsers()[0].getName());
                         initRecyclerView(response.body().getUsers());
+                        ProgressBar progressBar = view.findViewById(R.id.recycler_user_progress);
+                        progressBar.setVisibility(View.INVISIBLE);
                     }
                 }
                 @Override
