@@ -5,7 +5,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Query;
 
 public interface ApiService {
-    @GET("api.php")
+    @GET("users/create.php")
     Call<ApiRequest> addUser(
             @Query("skey") String skey,
             @Query("name") String name,

@@ -91,7 +91,7 @@ public class RegistrationFragment extends Fragment {
     private void initRetrofit() {
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://rumedo.ru/")
+                .baseUrl("https://rumedo.ru/api/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         apiService = retrofit.create(ApiService.class);
