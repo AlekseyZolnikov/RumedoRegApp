@@ -8,10 +8,16 @@
     tools:context=".fragment.UserFragment">
 
     <TextView
-        android:id="@+id/user_name_field"
+        android:id="@+id/user_id_field"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/user_name_field"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/user_id_field"/>
 
     <TextView
         android:id="@+id/user_surname_field"

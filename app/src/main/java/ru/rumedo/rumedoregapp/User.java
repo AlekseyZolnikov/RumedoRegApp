@@ -7,6 +7,9 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class User {
+    @SerializedName("id")
+    @Expose
+    private String id;
     @SerializedName("name")
     @Expose
     private final String name;
@@ -33,6 +36,10 @@ public class User {
         this.email = email;
         this.phone = phone;
         this.event = event;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getName() {
