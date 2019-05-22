@@ -1,6 +1,8 @@
 package ru.rumedo.rumedoregapp.fragment;
 
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -59,22 +62,25 @@ public class RegistrationFragment extends Fragment {
         regButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            savePreferences(sharedPref);
+                savePreferences(sharedPref);
 
-            regButton.setClickable(false);
-            regButton.setBackgroundResource(R.color.colorDisabled);
+                regButton.setClickable(false);
+                regButton.setBackgroundResource(R.color.colorDisabled);
 
-            String event = regEventField.getText().toString();
-            String name = regNameField.getText().toString();
-            String surname = regSurnameField.getText().toString();
-            String email = regEmailField.getText().toString();
-            String phone = regPhoneField.getText().toString();
+                String event = regEventField.getText().toString();
+                String name = regNameField.getText().toString();
+                String surname = regSurnameField.getText().toString();
+                String email = regEmailField.getText().toString();
+                String phone = regPhoneField.getText().toString();
 
-            User user = new User(name,surname,email,phone,event);
+                User user = new User(name,surname,email,phone,event);
 
-            regProgress.setVisibility(View.VISIBLE);
+                regProgress.setVisibility(View.VISIBLE);
+                InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                getActivity().getCurrentFocus();
 
-            requestRetrofit(user);
+                requestRetrofit(user);
             }
         });
     }
@@ -91,7 +97,7 @@ public class RegistrationFragment extends Fragment {
     private void initRetrofit() {
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://rumedo.ru/")
+                .baseUrl("https://rumedo.ru/api/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         apiService = retrofit.create(ApiService.class);
@@ -118,14 +124,15 @@ public class RegistrationFragment extends Fragment {
                     if (response.body() != null) {
                         Snackbar.make(getView(), response.body().getMessage(), Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();
-                    }else {
-                        Snackbar.make(getView(), "API response is wrong", Snackbar.LENGTH_LONG)
-                                .setAction("Action", null).show();
+                        if (!response.body().getStatus().equals("rejected")) {
+                            clearEditText();
+                        }
+
+                        regProgress.setVisibility(View.INVISIBLE);
+                        returnStateBtn();
                     }
 
-                    regProgress.setVisibility(View.INVISIBLE);
-                    returnStateBtn();
-                    clearEditText();
+
                 }
 
                 @Override
