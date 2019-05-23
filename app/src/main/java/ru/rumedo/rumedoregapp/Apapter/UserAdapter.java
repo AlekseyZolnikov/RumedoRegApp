@@ -6,19 +6,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
-import java.util.ArrayList;
-
 import ru.rumedo.rumedoregapp.R;
 import ru.rumedo.rumedoregapp.User;
+import ru.rumedo.rumedoregapp.database.UserDataReader;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.MyViewHolder> {
 
-    private final User[] itemUser;
+    private UserDataReader userDataReader;
     private OnRecyclerViewClickListener mOnRecyclerViewClickListener;
 
-    public UserAdapter(User[] itemUser, OnRecyclerViewClickListener mOnRecyclerViewClickListener) {
-        this.itemUser = itemUser;
+    public UserAdapter(UserDataReader userDataReader, OnRecyclerViewClickListener mOnRecyclerViewClickListener) {
+        this.userDataReader = userDataReader;
         this.mOnRecyclerViewClickListener = mOnRecyclerViewClickListener;
     }
 
@@ -31,12 +29,12 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.MyViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
-        myViewHolder.bind(i);
+        myViewHolder.bind(userDataReader.getPosition(i));
     }
 
     @Override
     public int getItemCount() {
-        return itemUser.length;
+        return userDataReader.getCount();
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
@@ -55,21 +53,13 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.MyViewHolder> 
             regdateView = itemView.findViewById(R.id.user_item_regdate);
             userItem = itemView.findViewById(R.id.user_item);
 
-            userItem.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int pos = getAdapterPosition();
-                    mOnRecyclerViewClickListener.showSingleItemInFragment(itemUser[pos]);
-                }
-            });
-
         }
 
-        private void bind(int pos) {
-            nameView.setText(itemUser[pos].getName());
-            surnameView.setText(itemUser[pos].getSurname());
-            emailView.setText(itemUser[pos].getEmail());
-            regdateView.setText(itemUser[pos].getRegdate());
+        private void bind(User user) {
+            nameView.setText(user.getName());
+            surnameView.setText(user.getSurname());
+            emailView.setText(user.getEmail());
+            regdateView.setText(user.getRegdate());
         }
     }
 }

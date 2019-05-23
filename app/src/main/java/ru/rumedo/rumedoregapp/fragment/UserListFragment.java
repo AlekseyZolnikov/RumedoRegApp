@@ -24,11 +24,16 @@ import ru.rumedo.rumedoregapp.R;
 import ru.rumedo.rumedoregapp.Apapter.UserAdapter;
 import ru.rumedo.rumedoregapp.User;
 import ru.rumedo.rumedoregapp.UserService;
+import ru.rumedo.rumedoregapp.database.UserDataReader;
+import ru.rumedo.rumedoregapp.database.UserDataSource;
 
 public class UserListFragment extends Fragment {
 
     public View view;
     public ApiService apiService;
+    private UserDataSource userDataSource;     // Источник данных
+    private UserDataReader userDataReader;      // Читатель данных
+    private UserAdapter adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -36,9 +41,23 @@ public class UserListFragment extends Fragment {
 
         view = inflater.inflate(R.layout.fragment_user_list, container, false);
         getActivity().startService(new Intent(getActivity(), UserService.class));
-        initRetrofit();
-        requestRetrofit();
+//        initRetrofit();
+//        requestRetrofit();
+
+        initDataSource();
+
+        RecyclerView recyclerView = view.findViewById(R.id.recycler_user_list);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        adapter = new UserAdapter(userDataReader, mOnRecyclerViewClickListener);
+        recyclerView.setAdapter(adapter);
         return view;
+    }
+
+    private void initDataSource() {
+        userDataSource = new UserDataSource(getContext());
+        userDataSource.open();
+        userDataReader = userDataSource.getUserDataReader();
     }
 
     private void initRetrofit() {
@@ -49,36 +68,36 @@ public class UserListFragment extends Fragment {
         apiService = retrofit.create(ApiService.class);
     }
 
-    private void requestRetrofit() {
-        String skey = "rumedo_rest_api_key";
-        apiService.listUsers(skey)
-            .enqueue(new Callback<ApiRequest>() {
-                @Override
-                public void onResponse(@NonNull Call<ApiRequest> call, @NonNull Response<ApiRequest> response) {
-                    if (response.body() != null) {
-                        Log.d("Retrofit", "onResponse: " + response.body().getUsers()[0].getName());
-                        initRecyclerView(response.body().getUsers());
-                        ProgressBar progressBar = view.findViewById(R.id.recycler_user_progress);
-                        progressBar.setVisibility(View.INVISIBLE);
-                        Snackbar.make(getView(), response.body().getMessage(), Snackbar.LENGTH_LONG)
-                                .setAction("Action", null).show();
-                    }
-                }
-                @Override
-                public void onFailure(@NonNull Call<ApiRequest> call,
-                                      @NonNull Throwable throwable) {
-                    Log.e("Retrofit", "request failed", throwable);
-                }
-            });
-    }
+//    private void requestRetrofit() {
+//        String skey = "rumedo_rest_api_key";
+//        apiService.listUsers(skey)
+//            .enqueue(new Callback<ApiRequest>() {
+//                @Override
+//                public void onResponse(@NonNull Call<ApiRequest> call, @NonNull Response<ApiRequest> response) {
+//                    if (response.body() != null) {
+//                        Log.d("Retrofit", "onResponse: " + response.body().getUsers()[0].getName());
+//                        initRecyclerView(response.body().getUsers());
+//                        ProgressBar progressBar = view.findViewById(R.id.recycler_user_progress);
+//                        progressBar.setVisibility(View.INVISIBLE);
+//                        Snackbar.make(getView(), response.body().getMessage(), Snackbar.LENGTH_LONG)
+//                                .setAction("Action", null).show();
+//                    }
+//                }
+//                @Override
+//                public void onFailure(@NonNull Call<ApiRequest> call,
+//                                      @NonNull Throwable throwable) {
+//                    Log.e("Retrofit", "request failed", throwable);
+//                }
+//            });
+//    }
 
-    private void initRecyclerView(User[] users) {
-        RecyclerView recyclerView = view.findViewById(R.id.recycler_user_list);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-        recyclerView.setLayoutManager(linearLayoutManager);
-        UserAdapter userAdapter = new UserAdapter(users, mOnRecyclerViewClickListener);
-        recyclerView.setAdapter(userAdapter);
-    }
+//    private void initRecyclerView(User[] users) {
+//        RecyclerView recyclerView = view.findViewById(R.id.recycler_user_list);
+//        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+//        recyclerView.setLayoutManager(linearLayoutManager);
+//        UserAdapter userAdapter = new UserAdapter(users, mOnRecyclerViewClickListener);
+//        recyclerView.setAdapter(userAdapter);
+//    }
 
     OnRecyclerViewClickListener mOnRecyclerViewClickListener = new OnRecyclerViewClickListener() {
         @Override

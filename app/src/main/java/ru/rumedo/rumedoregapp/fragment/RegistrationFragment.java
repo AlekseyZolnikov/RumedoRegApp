@@ -24,6 +24,8 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import ru.rumedo.rumedoregapp.R;
 import ru.rumedo.rumedoregapp.User;
+import ru.rumedo.rumedoregapp.database.UserDataReader;
+import ru.rumedo.rumedoregapp.database.UserDataSource;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -39,17 +41,26 @@ public class RegistrationFragment extends Fragment {
     private ProgressBar regProgress;
     private SharedPreferences sharedPref;
     private ApiService apiService;
+    private UserDataSource userDataSource;     // Источник данных
+    private UserDataReader userDataReader;      // Читатель данных
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_registration, container, false);
+        initDataSource();
         initRetrofit();
         initGui(view);
         initPreference();
         initEvents(view);
 
         return view;
+    }
+
+    private void initDataSource() {
+        userDataSource = new UserDataSource(getContext());
+        userDataSource.open();
+        userDataReader = userDataSource.getUserDataReader();
     }
 
     private void initPreference() {
@@ -120,7 +131,7 @@ public class RegistrationFragment extends Fragment {
         regEventField.setText(adminName);
     }
 
-    private void requestRetrofit(User user) {
+    private void requestRetrofit(final User user) {
         String skey = "rumedo_rest_api_key";
         apiService.addUser(skey, user.getName(),user.getSurname(),user.getEmail(),user.getPhone(), user.getEvent())
             .enqueue(new Callback<ApiRequest>() {
@@ -144,6 +155,9 @@ public class RegistrationFragment extends Fragment {
                     Snackbar.make(getView(), "request failed", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
                     Log.e("Retrofit", "request failed", throwable);
+
+                    User u = userDataSource.addUser(user);
+                    userDataReader.close();
 
                     regProgress.setVisibility(View.INVISIBLE);
                     returnStateBtn();
