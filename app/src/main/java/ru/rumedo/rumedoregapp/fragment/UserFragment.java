@@ -43,7 +43,7 @@ public class UserFragment extends Fragment {
 
     private void setDataIfIsNotNull() {
         if (getArguments() != null) {
-            textViewId.setText(getArguments().getString("KEY_USER_ID"));
+            textViewId.setText(String.valueOf(getArguments().getLong("KEY_USER_ID", 0)));
             textViewName.setText(getArguments().getString("KEY_USER_NAME"));
             textViewSurname.setText(getArguments().getString("KEY_USER_SURNAME"));
             textViewEmail.setText(getArguments().getString("KEY_USER_EMAIL"));

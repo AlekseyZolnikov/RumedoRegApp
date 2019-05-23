@@ -84,7 +84,7 @@ public class UserListFragment extends Fragment {
         @Override
         public void showSingleItemInFragment(User user) {
 
-            String id = user.getId();
+            long id = user.getId();
             String name = user.getName();
             String surname = user.getSurname();
             String email = user.getEmail();
@@ -93,7 +93,7 @@ public class UserListFragment extends Fragment {
             Fragment fragment = new UserFragment();
 
             Bundle bundle = new Bundle();
-            bundle.putString( "KEY_USER_ID", id);
+            bundle.putLong( "KEY_USER_ID", id);
             bundle.putString("KEY_USER_NAME", name);
             bundle.putString("KEY_USER_SURNAME", surname);
             bundle.putString("KEY_USER_EMAIL", email);
