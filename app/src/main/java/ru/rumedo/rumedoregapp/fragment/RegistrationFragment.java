@@ -73,7 +73,12 @@ public class RegistrationFragment extends Fragment {
                 String email = regEmailField.getText().toString();
                 String phone = regPhoneField.getText().toString();
 
-                User user = new User(name,surname,email,phone,event);
+                User user = new User();
+                user.setName(name);
+                user.setSurname(surname);
+                user.setEmail(email);
+                user.setPhone(phone);
+                user.setEvent(event);
 
                 regProgress.setVisibility(View.VISIBLE);
                 InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -131,8 +136,6 @@ public class RegistrationFragment extends Fragment {
                         regProgress.setVisibility(View.INVISIBLE);
                         returnStateBtn();
                     }
-
-
                 }
 
                 @Override
@@ -156,6 +159,7 @@ public class RegistrationFragment extends Fragment {
     }
 
     private void clearEditText() {
+
         regNameField.setText("");
         regSurnameField.setText("");
         regEmailField.setText("");

@@ -3,66 +3,82 @@ package ru.rumedo.rumedoregapp;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.Calendar;
-import java.util.Date;
-
 public class User {
     @SerializedName("id")
     @Expose
-    private String id;
+    private long id;
     @SerializedName("name")
     @Expose
-    private final String name;
+    private String name;
     @SerializedName("surname")
     @Expose
-    private final String surname;
+    private String surname;
     @SerializedName("email")
     @Expose
-    private final String email;
+    private String email;
     @SerializedName("phone")
     @Expose
-    private final String phone;
+    private String phone;
     @SerializedName("event")
     @Expose
-    private final String event;
+    private String event;
     @SerializedName("regdate")
     @Expose
     private String regdate;
 
-
-    public User(String name, String surname, String email, String phone, String event) {
-        this.name = name;
-        this.surname = surname;
-        this.email = email;
-        this.phone = phone;
-        this.event = event;
+    public long getId() {
+        return id;
     }
 
-    public String getId() {
-        return id;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getName() {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getSurname() {
         return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 
     public String getEmail() {
         return email;
     }
 
-    public String getRegdate() {
-        return regdate;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPhone() {
         return phone;
     }
 
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
     public String getEvent() {
         return event;
+    }
+
+    public void setEvent(String event) {
+        this.event = event;
+    }
+
+    public String getRegdate() {
+        return regdate;
+    }
+
+    public void setRegdate(String regdate) {
+        this.regdate = regdate;
     }
 }
