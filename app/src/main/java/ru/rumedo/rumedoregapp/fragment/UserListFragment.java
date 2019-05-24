@@ -123,7 +123,7 @@ public class UserListFragment extends Fragment {
 
                         User[] users = response.body().getUsers();
 
-                        trySyncUsesInOutData(users);
+                        trySyncUsers(users);
 
                         Snackbar.make(getView(), "list update", Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();
@@ -133,27 +133,63 @@ public class UserListFragment extends Fragment {
                 public void onFailure(@NonNull Call<ApiRequest> call,
                                       @NonNull Throwable throwable) {
                     Log.e("Retrofit", "request failed", throwable);
+                    Snackbar.make(getView(), "Sync failed", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
                 }
             });
     }
 
-    private void trySyncUsesInOutData(User[] users) {
+    private void trySyncUsers(User[] users) {
 
         UserDataReader in = userDataSource.getUserDataReader();
         User[] out = users;
 
-//        userDataSource.deleteAll();
-
+        // Обновляем локальные данные
         for (User user : out) {
             if (!isRemoteUserHasInUserData(user.getEmail(), in)) {
                 userDataSource.addUser(user);
             }
         }
+
+        // Обновляем удаленные
+        for (int i = 0; i < in.getCount(); i++) {
+            if (!isUserDataHasInRemote(in.getPosition(i).getEmail(), out)) {
+                addUserInRemoteDatabase(in.getPosition(i));
+            }
+        }
+
+        adapter.notifyDataSetChanged();
     }
 
-    private boolean isRemoteUserHasInUserData(String email, UserDataReader astr) {
-        for (int i = 0; i < astr.getCount(); i++) {
-            if (astr.getPosition(i).getEmail().equals(email)) return true;
+    private void addUserInRemoteDatabase(User user) {
+        String skey = "rumedo_rest_api_key";
+        apiService.addUser(skey, user.getName(),user.getSurname(),user.getEmail(),user.getPhone(), user.getEvent())
+            .enqueue(new Callback<ApiRequest>() {
+                @Override
+                public void onResponse(@NonNull Call<ApiRequest> call, @NonNull Response<ApiRequest> response) {
+
+                }
+
+                @Override
+                public void onFailure(@NonNull Call<ApiRequest> call,
+                                      @NonNull Throwable throwable) {
+
+                }
+
+            });
+
+    }
+
+    private boolean isUserDataHasInRemote(String email, User[] user) {
+        for (int i = 0; i < user.length; i++) {
+            if (user[i].getEmail().equals(email)) return true;
+        }
+        return false;
+    }
+
+    private boolean isRemoteUserHasInUserData(String email, UserDataReader remoteUser) {
+        for (int i = 0; i < remoteUser.getCount(); i++) {
+            if (remoteUser.getPosition(i).getEmail().equals(email)) return true;
         }
         return false;
     }
