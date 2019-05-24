@@ -55,14 +55,6 @@ public class UserListFragment extends Fragment {
         return view;
     }
 
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View view,
-                                    ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, view, menuInfo);
-        MenuInflater inflater = getActivity().getMenuInflater();
-        inflater.inflate(R.menu.database_menu, menu);
-    }
-
     @SuppressLint("StaticFieldLeak")
     public class InitTask extends AsyncTask<Void,Void,Void> {
 
@@ -104,8 +96,13 @@ public class UserListFragment extends Fragment {
                 }
             }
 
-            adapter.notifyDataSetChanged();
             return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            adapter.notifyDataSetChanged();
         }
     }
 
