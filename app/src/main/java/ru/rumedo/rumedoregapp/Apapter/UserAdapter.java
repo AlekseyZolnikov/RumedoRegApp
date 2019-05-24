@@ -13,11 +13,9 @@ import ru.rumedo.rumedoregapp.database.UserDataReader;
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.MyViewHolder> {
 
     private UserDataReader userDataReader;
-    private OnRecyclerViewClickListener mOnRecyclerViewClickListener;
 
-    public UserAdapter(UserDataReader userDataReader, OnRecyclerViewClickListener mOnRecyclerViewClickListener) {
+    public UserAdapter(UserDataReader userDataReader) {
         this.userDataReader = userDataReader;
-        this.mOnRecyclerViewClickListener = mOnRecyclerViewClickListener;
     }
 
     @NonNull

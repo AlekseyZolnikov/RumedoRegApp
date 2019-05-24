@@ -18,4 +18,10 @@ public interface ApiService {
     Call<ApiRequest> listUsers(
         @Query("skey") String skey
     );
+
+    @GET("users/find.php")
+    Call<ApiRequest> getUserByEmail(
+            @Query("skey") String skey,
+            @Query("email") String email
+    );
 }

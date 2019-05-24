@@ -1,9 +1,12 @@
 package ru.rumedo.rumedoregapp.fragment;
 
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,6 +17,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import java.lang.reflect.Array;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -23,41 +28,78 @@ import ru.rumedo.rumedoregapp.Apapter.OnRecyclerViewClickListener;
 import ru.rumedo.rumedoregapp.R;
 import ru.rumedo.rumedoregapp.Apapter.UserAdapter;
 import ru.rumedo.rumedoregapp.User;
-import ru.rumedo.rumedoregapp.UserService;
 import ru.rumedo.rumedoregapp.database.UserDataReader;
 import ru.rumedo.rumedoregapp.database.UserDataSource;
 
 public class UserListFragment extends Fragment {
 
     public View view;
-    public ApiService apiService;
-    private UserDataSource userDataSource;     // Источник данных
-    private UserDataReader userDataReader;      // Читатель данных
+    private UserDataSource userDataSource;
+    private UserDataReader userDataReader;
     private UserAdapter adapter;
+    private FloatingActionButton fab;
+    public ApiService apiService;
+    public RecyclerView recyclerView;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         view = inflater.inflate(R.layout.fragment_user_list, container, false);
-        getActivity().startService(new Intent(getActivity(), UserService.class));
-//        initRetrofit();
-//        requestRetrofit();
+        initGui();
+        initEvents();
+        InitTask task = new InitTask();
+        task.execute();
+        return view;
+    }
 
-        initDataSource();
+    @SuppressLint("StaticFieldLeak")
+    public class InitTask extends AsyncTask<Void,Void,Void> {
 
-        RecyclerView recyclerView = view.findViewById(R.id.recycler_user_list);
+        @Override
+        protected Void doInBackground(Void... voids) {
+            initDataSource();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            initRecyclerView();
+            ProgressBar progress = getView().findViewById(R.id.recycler_user_progress);
+            progress.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    private void initGui() {
+        fab = view.findViewById(R.id.btn_sync);
+    }
+
+    private void initEvents() {
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                syncUserList();
+            }
+        });
+    }
+
+    private void initRecyclerView() {
+        recyclerView = view.findViewById(R.id.recycler_user_list);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
-        adapter = new UserAdapter(userDataReader, mOnRecyclerViewClickListener);
+        adapter = new UserAdapter(userDataReader);
         recyclerView.setAdapter(adapter);
-        return view;
     }
 
     private void initDataSource() {
         userDataSource = new UserDataSource(getContext());
         userDataSource.open();
         userDataReader = userDataSource.getUserDataReader();
+    }
+
+    private void syncUserList() {
+        initRetrofit();
+        getRemoteUsers();
     }
 
     private void initRetrofit() {
@@ -68,36 +110,53 @@ public class UserListFragment extends Fragment {
         apiService = retrofit.create(ApiService.class);
     }
 
-//    private void requestRetrofit() {
-//        String skey = "rumedo_rest_api_key";
-//        apiService.listUsers(skey)
-//            .enqueue(new Callback<ApiRequest>() {
-//                @Override
-//                public void onResponse(@NonNull Call<ApiRequest> call, @NonNull Response<ApiRequest> response) {
-//                    if (response.body() != null) {
-//                        Log.d("Retrofit", "onResponse: " + response.body().getUsers()[0].getName());
-//                        initRecyclerView(response.body().getUsers());
-//                        ProgressBar progressBar = view.findViewById(R.id.recycler_user_progress);
-//                        progressBar.setVisibility(View.INVISIBLE);
-//                        Snackbar.make(getView(), response.body().getMessage(), Snackbar.LENGTH_LONG)
-//                                .setAction("Action", null).show();
-//                    }
-//                }
-//                @Override
-//                public void onFailure(@NonNull Call<ApiRequest> call,
-//                                      @NonNull Throwable throwable) {
-//                    Log.e("Retrofit", "request failed", throwable);
-//                }
-//            });
-//    }
+    private void getRemoteUsers() {
+        String skey = "rumedo_rest_api_key";
+        apiService.listUsers(skey)
+            .enqueue(new Callback<ApiRequest>() {
+                @Override
+                public void onResponse(@NonNull Call<ApiRequest> call, @NonNull Response<ApiRequest> response) {
+                    if (response.body() != null) {
 
-//    private void initRecyclerView(User[] users) {
-//        RecyclerView recyclerView = view.findViewById(R.id.recycler_user_list);
-//        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-//        recyclerView.setLayoutManager(linearLayoutManager);
-//        UserAdapter userAdapter = new UserAdapter(users, mOnRecyclerViewClickListener);
-//        recyclerView.setAdapter(userAdapter);
-//    }
+                        ProgressBar progressBar = view.findViewById(R.id.recycler_user_progress);
+                        progressBar.setVisibility(View.INVISIBLE);
+
+                        User[] users = response.body().getUsers();
+
+                        trySyncUsesInOutData(users);
+
+                        Snackbar.make(getView(), "list update", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
+                    }
+                }
+                @Override
+                public void onFailure(@NonNull Call<ApiRequest> call,
+                                      @NonNull Throwable throwable) {
+                    Log.e("Retrofit", "request failed", throwable);
+                }
+            });
+    }
+
+    private void trySyncUsesInOutData(User[] users) {
+
+        UserDataReader in = userDataSource.getUserDataReader();
+        User[] out = users;
+
+//        userDataSource.deleteAll();
+
+        for (User user : out) {
+            if (!isRemoteUserHasInUserData(user.getEmail(), in)) {
+                userDataSource.addUser(user);
+            }
+        }
+    }
+
+    private boolean isRemoteUserHasInUserData(String email, UserDataReader astr) {
+        for (int i = 0; i < astr.getCount(); i++) {
+            if (astr.getPosition(i).getEmail().equals(email)) return true;
+        }
+        return false;
+    }
 
     OnRecyclerViewClickListener mOnRecyclerViewClickListener = new OnRecyclerViewClickListener() {
         @Override

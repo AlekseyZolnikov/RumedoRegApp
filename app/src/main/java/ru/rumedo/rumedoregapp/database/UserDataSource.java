@@ -53,6 +53,10 @@ public class UserDataSource implements Closeable {
         return newUser;
     }
 
+    public void deleteAll() {
+        database.delete(DatabaseHelper.TABLE_USERS, null, null);
+    }
+
     public UserDataReader getUserDataReader() {
         return userDataReader;
     }

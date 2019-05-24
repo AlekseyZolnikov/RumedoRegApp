@@ -41,8 +41,8 @@ public class RegistrationFragment extends Fragment {
     private ProgressBar regProgress;
     private SharedPreferences sharedPref;
     private ApiService apiService;
-    private UserDataSource userDataSource;     // Источник данных
-    private UserDataReader userDataReader;      // Читатель данных
+    private UserDataSource userDataSource;
+    private UserDataReader userDataReader;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -143,7 +143,6 @@ public class RegistrationFragment extends Fragment {
                         if (!response.body().getStatus().equals("rejected")) {
                             clearEditText();
                         }
-
                         regProgress.setVisibility(View.INVISIBLE);
                         returnStateBtn();
                     }
@@ -152,19 +151,15 @@ public class RegistrationFragment extends Fragment {
                 @Override
                 public void onFailure(@NonNull Call<ApiRequest> call,
                                       @NonNull Throwable throwable) {
-                    Snackbar.make(getView(), "request failed", Snackbar.LENGTH_LONG)
+                    Snackbar.make(getView(), "Request field! Save in local storage", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
-                    Log.e("Retrofit", "request failed", throwable);
 
-                    User u = userDataSource.addUser(user);
-                    userDataReader.close();
-
+                    userDataSource.addUser(user);
                     regProgress.setVisibility(View.INVISIBLE);
                     returnStateBtn();
                 }
 
                 private void returnStateBtn() {
-
                     regButton.setClickable(true);
                     regButton.setBackgroundResource(R.color.colorPrimary);
                 }
