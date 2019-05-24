@@ -12,7 +12,10 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
@@ -52,6 +55,14 @@ public class UserListFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View view,
+                                    ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, view, menuInfo);
+        MenuInflater inflater = getActivity().getMenuInflater();
+        inflater.inflate(R.menu.database_menu, menu);
+    }
+
     @SuppressLint("StaticFieldLeak")
     public class InitTask extends AsyncTask<Void,Void,Void> {
 
@@ -67,6 +78,34 @@ public class UserListFragment extends Fragment {
             initRecyclerView();
             ProgressBar progress = getView().findViewById(R.id.recycler_user_progress);
             progress.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    public class AddUserTask extends AsyncTask<User,Void,Void> {
+
+        @Override
+        protected Void doInBackground(User... users) {
+            UserDataReader in = userDataSource.getUserDataReader();
+
+            // Обновляем локальные данные
+            for (User user : users) {
+                if (!isRemoteUserHasInUserData(user.getEmail(), in)) {
+                    userDataSource.addUser(user);
+                    break;
+                }
+            }
+
+            // Обновляем удаленные
+            for (int i = 0; i < in.getCount(); i++) {
+                if (!isUserDataHasInRemote(in.getPosition(i).getEmail(), users)) {
+                    addUserInRemoteDatabase(in.getPosition(i));
+                    break;
+                }
+            }
+
+            adapter.notifyDataSetChanged();
+            return null;
         }
     }
 
@@ -141,24 +180,9 @@ public class UserListFragment extends Fragment {
 
     private void trySyncUsers(User[] users) {
 
-        UserDataReader in = userDataSource.getUserDataReader();
-        User[] out = users;
+        AddUserTask task = new AddUserTask();
+        task.execute(users);
 
-        // Обновляем локальные данные
-        for (User user : out) {
-            if (!isRemoteUserHasInUserData(user.getEmail(), in)) {
-                userDataSource.addUser(user);
-            }
-        }
-
-        // Обновляем удаленные
-        for (int i = 0; i < in.getCount(); i++) {
-            if (!isUserDataHasInRemote(in.getPosition(i).getEmail(), out)) {
-                addUserInRemoteDatabase(in.getPosition(i));
-            }
-        }
-
-        adapter.notifyDataSetChanged();
     }
 
     private void addUserInRemoteDatabase(User user) {
