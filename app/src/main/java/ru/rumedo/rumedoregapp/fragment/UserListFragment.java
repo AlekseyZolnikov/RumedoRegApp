@@ -102,6 +102,8 @@ public class UserListFragment extends Fragment {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+            Snackbar.make(getView(), "list update", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
             adapter.notifyDataSetChanged();
         }
     }
@@ -161,8 +163,6 @@ public class UserListFragment extends Fragment {
 
                         trySyncUsers(users);
 
-                        Snackbar.make(getView(), "list update", Snackbar.LENGTH_LONG)
-                                .setAction("Action", null).show();
                     }
                 }
                 @Override
