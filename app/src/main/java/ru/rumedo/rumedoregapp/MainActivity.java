@@ -31,7 +31,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             showFragment(fragment);
         }
 
-
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 

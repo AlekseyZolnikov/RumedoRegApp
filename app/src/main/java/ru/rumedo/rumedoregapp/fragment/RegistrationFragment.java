@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -84,6 +85,13 @@ public class RegistrationFragment extends Fragment {
                 String email = regEmailField.getText().toString();
                 String phone = regPhoneField.getText().toString();
 
+                if (TextUtils.isEmpty(email)) {
+                    Snackbar.make(getView(), "Email is empty", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                    returnStateBtn();
+                    return;
+                }
+
                 User user = new User();
                 user.setName(name);
                 user.setSurname(surname);
@@ -159,12 +167,14 @@ public class RegistrationFragment extends Fragment {
                     returnStateBtn();
                 }
 
-                private void returnStateBtn() {
-                    regButton.setClickable(true);
-                    regButton.setBackgroundResource(R.color.colorPrimary);
-                }
+
 
             });
+    }
+
+    private void returnStateBtn() {
+        regButton.setClickable(true);
+        regButton.setBackgroundResource(R.color.colorPrimary);
     }
 
     private void clearEditText() {

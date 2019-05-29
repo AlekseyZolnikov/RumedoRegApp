@@ -12,10 +12,10 @@ import ru.rumedo.rumedoregapp.database.UserDataReader;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.MyViewHolder> {
 
-    private UserDataReader userDataReader;
+    private User[] users;
 
-    public UserAdapter(UserDataReader userDataReader) {
-        this.userDataReader = userDataReader;
+    public UserAdapter(User[] users) {
+        this.users = users;
     }
 
     @NonNull
@@ -27,12 +27,12 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.MyViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
-        myViewHolder.bind(userDataReader.getPosition(i));
+        myViewHolder.bind(users[i]);
     }
 
     @Override
     public int getItemCount() {
-        return userDataReader.getCount();
+        return users.length;
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {

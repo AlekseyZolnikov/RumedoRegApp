@@ -20,8 +20,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
-import java.lang.reflect.Array;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -50,63 +48,11 @@ public class UserListFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_user_list, container, false);
         initGui();
         initEvents();
-        InitTask task = new InitTask();
-        task.execute();
+        initRetrofit();
+        requestRetrofit();
         return view;
     }
 
-    @SuppressLint("StaticFieldLeak")
-    public class InitTask extends AsyncTask<Void,Void,Void> {
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            initDataSource();
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            initRecyclerView();
-            ProgressBar progress = getView().findViewById(R.id.recycler_user_progress);
-            progress.setVisibility(View.INVISIBLE);
-        }
-    }
-
-    @SuppressLint("StaticFieldLeak")
-    public class AddUserTask extends AsyncTask<User,Void,Void> {
-
-        @Override
-        protected Void doInBackground(User... users) {
-            UserDataReader in = userDataSource.getUserDataReader();
-
-            // Обновляем локальные данные
-            for (User user : users) {
-                if (!isRemoteUserHasInUserData(user.getEmail(), in)) {
-                    userDataSource.addUser(user);
-                    break;
-                }
-            }
-
-            // Обновляем удаленные
-            for (int i = 0; i < in.getCount(); i++) {
-                if (!isUserDataHasInRemote(in.getPosition(i).getEmail(), users)) {
-                    addUserInRemoteDatabase(in.getPosition(i));
-                    break;
-                }
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            Snackbar.make(getView(), "list update", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show();
-            adapter.notifyDataSetChanged();
-        }
-    }
 
     private void initGui() {
         fab = view.findViewById(R.id.btn_sync);
@@ -116,17 +62,9 @@ public class UserListFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                syncUserList();
+
             }
         });
-    }
-
-    private void initRecyclerView() {
-        recyclerView = view.findViewById(R.id.recycler_user_list);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-        recyclerView.setLayoutManager(linearLayoutManager);
-        adapter = new UserAdapter(userDataReader);
-        recyclerView.setAdapter(adapter);
     }
 
     private void initDataSource() {
@@ -135,9 +73,13 @@ public class UserListFragment extends Fragment {
         userDataReader = userDataSource.getUserDataReader();
     }
 
-    private void syncUserList() {
-        initRetrofit();
-        getRemoteUsers();
+    private void initRecyclerView(User[] users) {
+        recyclerView = view.findViewById(R.id.recycler_user_list);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        adapter = new UserAdapter(users);
+        recyclerView.setAdapter(adapter);
+
     }
 
     private void initRetrofit() {
@@ -148,95 +90,31 @@ public class UserListFragment extends Fragment {
         apiService = retrofit.create(ApiService.class);
     }
 
-    private void getRemoteUsers() {
+    private void requestRetrofit() {
+        final ProgressBar progressBar = view.findViewById(R.id.recycler_user_progress);
         String skey = "rumedo_rest_api_key";
         apiService.listUsers(skey)
-            .enqueue(new Callback<ApiRequest>() {
-                @Override
-                public void onResponse(@NonNull Call<ApiRequest> call, @NonNull Response<ApiRequest> response) {
-                    if (response.body() != null) {
+                .enqueue(new Callback<ApiRequest>() {
+                    @Override
+                    public void onResponse(@NonNull Call<ApiRequest> call, @NonNull Response<ApiRequest> response) {
+                        if (response.body() != null) {
+                            Log.d("Retrofit", "onResponse: " + response.body().getUsers()[0].getName());
+                            initRecyclerView(response.body().getUsers());
 
-                        ProgressBar progressBar = view.findViewById(R.id.recycler_user_progress);
-                        progressBar.setVisibility(View.INVISIBLE);
-
-                        User[] users = response.body().getUsers();
-
-                        trySyncUsers(users);
-
+                            progressBar.setVisibility(View.INVISIBLE);
+                            Snackbar.make(getView(), response.body().getMessage(), Snackbar.LENGTH_LONG)
+                                    .setAction("Action", null).show();
+                        }
                     }
-                }
-                @Override
-                public void onFailure(@NonNull Call<ApiRequest> call,
-                                      @NonNull Throwable throwable) {
-                    Log.e("Retrofit", "request failed", throwable);
-                    Snackbar.make(getView(), "Sync failed", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
-                }
-            });
+                    @Override
+                    public void onFailure(@NonNull Call<ApiRequest> call,
+                                          @NonNull Throwable throwable) {
+                        progressBar.setVisibility(View.INVISIBLE);
+                        Snackbar.make(getView(), "Connection refused", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
+                    }
+                });
     }
 
-    private void trySyncUsers(User[] users) {
 
-        AddUserTask task = new AddUserTask();
-        task.execute(users);
-
-    }
-
-    private void addUserInRemoteDatabase(User user) {
-        String skey = "rumedo_rest_api_key";
-        apiService.addUser(skey, user.getName(),user.getSurname(),user.getEmail(),user.getPhone(), user.getEvent())
-            .enqueue(new Callback<ApiRequest>() {
-                @Override
-                public void onResponse(@NonNull Call<ApiRequest> call, @NonNull Response<ApiRequest> response) {
-
-                }
-
-                @Override
-                public void onFailure(@NonNull Call<ApiRequest> call,
-                                      @NonNull Throwable throwable) {
-
-                }
-
-            });
-
-    }
-
-    private boolean isUserDataHasInRemote(String email, User[] user) {
-        for (int i = 0; i < user.length; i++) {
-            if (user[i].getEmail().equals(email)) return true;
-        }
-        return false;
-    }
-
-    private boolean isRemoteUserHasInUserData(String email, UserDataReader remoteUser) {
-        for (int i = 0; i < remoteUser.getCount(); i++) {
-            if (remoteUser.getPosition(i).getEmail().equals(email)) return true;
-        }
-        return false;
-    }
-
-    OnRecyclerViewClickListener mOnRecyclerViewClickListener = new OnRecyclerViewClickListener() {
-        @Override
-        public void showSingleItemInFragment(User user) {
-
-            long id = user.getId();
-            String name = user.getName();
-            String surname = user.getSurname();
-            String email = user.getEmail();
-            String phone = user.getPhone();
-
-            Fragment fragment = new UserFragment();
-
-            Bundle bundle = new Bundle();
-            bundle.putLong( "KEY_USER_ID", id);
-            bundle.putString("KEY_USER_NAME", name);
-            bundle.putString("KEY_USER_SURNAME", surname);
-            bundle.putString("KEY_USER_EMAIL", email);
-            bundle.putString("KEY_USER_PHONE", phone);
-            fragment.setArguments(bundle);
-            getFragmentManager().beginTransaction()
-                    .replace(R.id.main_activity_frame_layout, fragment)
-                    .commit();
-        }
-    };
 }
