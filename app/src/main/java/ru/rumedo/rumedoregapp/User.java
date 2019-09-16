@@ -26,6 +26,8 @@ public class User {
     @Expose
     private String regdate;
 
+    private int isSync;
+
     public long getId() {
         return id;
     }
@@ -80,5 +82,13 @@ public class User {
 
     public void setRegdate(String regdate) {
         this.regdate = regdate;
+    }
+
+    public int getIsSync() {
+        return isSync;
+    }
+
+    public void setIsSync(int isSync) {
+        this.isSync = isSync;
     }
 }

@@ -32,4 +32,5 @@
     <string name="reg_email_field">Введите E-mail</string>
     <string name="reg_phone_label">Телефон</string>
     <string name="reg_phone_field">Введите телефон</string>
+    <string name="is_sync">is sync</string>
 </resources>

@@ -47,6 +47,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/user_item_email"
             android:text="@string/reg_date"/>
+
+        <TextView
+            android:id="@+id/user_item_sync"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/user_item_regdate"
+            android:text="@string/is_sync"/>
     </android.support.constraint.ConstraintLayout>
 
 </android.support.v7.widget.CardView>

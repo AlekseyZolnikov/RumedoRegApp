@@ -39,6 +39,7 @@ public class UserDataSource implements Closeable {
         cv.put(DatabaseHelper.COLUMN_EMAIL, user.getEmail());
         cv.put(DatabaseHelper.COLUMN_PHONE, user.getPhone());
         cv.put(DatabaseHelper.COLUMN_EVENT, user.getEvent());
+        cv.put(DatabaseHelper.COLUMN_ISSYNC, user.getIsSync());
 
         long insertId = database.insert(DatabaseHelper.TABLE_USERS, null, cv);
 
@@ -48,13 +49,21 @@ public class UserDataSource implements Closeable {
         newUser.setSurname(user.getSurname());
         newUser.setEmail(user.getEmail());
         newUser.setPhone(user.getPhone());
-        newUser.setEvent(user.getPhone());
+        newUser.setEvent(user.getEvent());
+        newUser.setIsSync(user.getIsSync());
 
         return newUser;
     }
 
     public void deleteAll() {
         database.delete(DatabaseHelper.TABLE_USERS, null, null);
+    }
+
+    public long updateUser(User user) {
+        ContentValues cv = new ContentValues();
+        cv.put(DatabaseHelper.COLUMN_ISSYNC, 1);
+        long insertId = database.update(DatabaseHelper.TABLE_USERS, cv,DatabaseHelper.COLUMN_EMAIL + " = ?", new String[]{user.getEmail()});
+        return insertId;
     }
 
     public UserDataReader getUserDataReader() {

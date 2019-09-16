@@ -3,6 +3,8 @@ package ru.rumedo.rumedoregapp.database;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.util.ArrayList;
+
 import ru.rumedo.rumedoregapp.User;
 
 public class UserDataReader {
@@ -17,7 +19,9 @@ public class UserDataReader {
             DatabaseHelper.COLUMN_EMAIL,
             DatabaseHelper.COLUMN_PHONE,
             DatabaseHelper.COLUMN_EVENT,
-            DatabaseHelper.COLUMN_REGDATE
+            DatabaseHelper.COLUMN_REGDATE,
+            DatabaseHelper.COLUMN_ISSYNC,
+
     };
 
     public UserDataReader(SQLiteDatabase database) {
@@ -41,7 +45,7 @@ public class UserDataReader {
 
     private void query() {
         cursor = database.query(DatabaseHelper.TABLE_USERS, usersAllColumn,
-                null, null, null, null, null);
+                null, null, null, null, DatabaseHelper.COLUMN_ID + " DESC");
     }
 
     public User getPosition(int position) {
@@ -61,6 +65,7 @@ public class UserDataReader {
         user.setEmail(cursor.getString(3));
         user.setPhone(cursor.getString(4));
         user.setEvent(cursor.getString(5));
+        user.setIsSync(cursor.getInt(7));
         return user;
     }
 }

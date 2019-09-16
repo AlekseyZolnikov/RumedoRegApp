@@ -7,8 +7,8 @@ import android.provider.BaseColumns;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    private static final String DATABASE_NAME = "users.db";
-    private static final int DATABASE_VERSION = 2;
+    private static final String DATABASE_NAME = "users2.db";
+    private static final int DATABASE_VERSION = 1;
 
     public static final String TABLE_USERS = "users";
 
@@ -19,6 +19,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_PHONE = "phone";
     public static final String COLUMN_EVENT = "event";
     public static final String COLUMN_REGDATE = "regdate";
+    public static final String COLUMN_ISSYNC = "is_sync";
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -36,17 +37,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     + COLUMN_EMAIL + " TEXT, "
                     + COLUMN_PHONE + " TEXT, "
                     + COLUMN_EVENT + " TEXT, "
-                    + COLUMN_REGDATE + " TEXT" +
+                    + COLUMN_REGDATE + " TEXT, "
+                    + COLUMN_ISSYNC + " INTEGER" +
                 ");"
         );
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        if ((oldVersion == 1) && (newVersion == 2)) {
-            String upgradeQuery = "ALTER TABLE " + TABLE_USERS + " ADD COLUMN "
-                    + COLUMN_EVENT + " TEXT DEFAULT 'EVENT'";
-            db.execSQL(upgradeQuery);
-        }
+        String upgradeQuery = "ALTER TABLE " + TABLE_USERS + " ADD COLUMN "
+                + COLUMN_ISSYNC + " INTEGER";
+        db.execSQL(upgradeQuery);
     }
 }

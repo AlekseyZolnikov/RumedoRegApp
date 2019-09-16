@@ -1,7 +1,9 @@
 package ru.rumedo.rumedoregapp.Apapter;
 
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,10 +14,10 @@ import ru.rumedo.rumedoregapp.database.UserDataReader;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.MyViewHolder> {
 
-    private User[] users;
+    private UserDataReader userDataReader;
 
-    public UserAdapter(User[] users) {
-        this.users = users;
+    public UserAdapter(UserDataReader userDataReader) {
+        this.userDataReader = userDataReader;
     }
 
     @NonNull
@@ -27,12 +29,12 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.MyViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
-        myViewHolder.bind(users[i]);
+        myViewHolder.bind(userDataReader.getPosition(i));
     }
 
     @Override
     public int getItemCount() {
-        return users.length;
+        return userDataReader.getCount();
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
@@ -41,6 +43,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.MyViewHolder> 
         final TextView surnameView;
         final TextView emailView;
         final TextView regdateView;
+        final TextView isSync;
         View userItem;
 
         private MyViewHolder(@NonNull View itemView) {
@@ -49,8 +52,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.MyViewHolder> 
             surnameView = itemView.findViewById(R.id.user_item_surname);
             emailView = itemView.findViewById(R.id.user_item_email);
             regdateView = itemView.findViewById(R.id.user_item_regdate);
+            isSync = itemView.findViewById(R.id.user_item_sync);
             userItem = itemView.findViewById(R.id.user_item);
-
         }
 
         private void bind(User user) {
@@ -58,6 +61,10 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.MyViewHolder> 
             surnameView.setText(user.getSurname());
             emailView.setText(user.getEmail());
             regdateView.setText(user.getRegdate());
+            isSync.setText(user.getIsSync() + "");
+            if (user.getIsSync() != 1) {
+                userItem.setBackgroundColor(Color.RED);
+            }
         }
     }
 }

@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 
@@ -38,17 +39,18 @@ public class RegistrationFragment extends Fragment {
     private EditText regSurnameField;
     private EditText regEmailField;
     private EditText regPhoneField;
+    private CheckBox regIsUpdate;
     private Button regButton;
     private ProgressBar regProgress;
     private SharedPreferences sharedPref;
     private ApiService apiService;
     private UserDataSource userDataSource;
-    private UserDataReader userDataReader;
+    public View view;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_registration, container, false);
+        view = inflater.inflate(R.layout.fragment_registration, container, false);
         initDataSource();
         initRetrofit();
         initGui(view);
@@ -61,7 +63,6 @@ public class RegistrationFragment extends Fragment {
     private void initDataSource() {
         userDataSource = new UserDataSource(getContext());
         userDataSource.open();
-        userDataReader = userDataSource.getUserDataReader();
     }
 
     private void initPreference() {
@@ -84,6 +85,7 @@ public class RegistrationFragment extends Fragment {
                 String surname = regSurnameField.getText().toString();
                 String email = regEmailField.getText().toString();
                 String phone = regPhoneField.getText().toString();
+                String isUpdate = Boolean.toString(regIsUpdate.isChecked());
 
                 if (TextUtils.isEmpty(email)) {
                     Snackbar.make(getView(), "Email is empty", Snackbar.LENGTH_LONG)
@@ -98,13 +100,14 @@ public class RegistrationFragment extends Fragment {
                 user.setEmail(email);
                 user.setPhone(phone);
                 user.setEvent(event);
+                user.setIsSync(1);
 
                 regProgress.setVisibility(View.VISIBLE);
                 InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                 getActivity().getCurrentFocus();
 
-                requestRetrofit(user);
+                requestRetrofit(user, isUpdate);
             }
         });
     }
@@ -116,12 +119,13 @@ public class RegistrationFragment extends Fragment {
         regEmailField = view.findViewById(R.id.reg_email_field);
         regPhoneField = view.findViewById(R.id.reg_phone_field);
         regProgress = view.findViewById(R.id.reg_progress);
+        regIsUpdate = view.findViewById(R.id.reg_is_update);
     }
 
     private void initRetrofit() {
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://rumedo.ru/api/")
+                .baseUrl("https://rumedo.ru/api/v2/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         apiService = retrofit.create(ApiService.class);
@@ -139,9 +143,9 @@ public class RegistrationFragment extends Fragment {
         regEventField.setText(adminName);
     }
 
-    private void requestRetrofit(final User user) {
+    private void requestRetrofit(final User user, String isUpdate) {
         String skey = "rumedo_rest_api_key";
-        apiService.addUser(skey, user.getName(),user.getSurname(),user.getEmail(),user.getPhone(), user.getEvent())
+        apiService.addUser(skey, user.getName(),user.getSurname(),user.getEmail(),user.getPhone(), user.getEvent(), isUpdate)
             .enqueue(new Callback<ApiRequest>() {
                 @Override
                 public void onResponse(@NonNull Call<ApiRequest> call, @NonNull Response<ApiRequest> response) {
@@ -149,6 +153,7 @@ public class RegistrationFragment extends Fragment {
                         Snackbar.make(getView(), response.body().getMessage(), Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();
                         if (!response.body().getStatus().equals("rejected")) {
+                            userDataSource.addUser(user);
                             clearEditText();
                         }
                         regProgress.setVisibility(View.INVISIBLE);
@@ -159,12 +164,14 @@ public class RegistrationFragment extends Fragment {
                 @Override
                 public void onFailure(@NonNull Call<ApiRequest> call,
                                       @NonNull Throwable throwable) {
-                    Snackbar.make(getView(), "Request field! Save in local storage", Snackbar.LENGTH_LONG)
+                    Snackbar.make(view, "Request field! Save in local storage", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
 
+                    user.setIsSync(0);
                     userDataSource.addUser(user);
                     regProgress.setVisibility(View.INVISIBLE);
                     returnStateBtn();
+                    clearEditText();
                 }
 
 
@@ -183,5 +190,6 @@ public class RegistrationFragment extends Fragment {
         regSurnameField.setText("");
         regEmailField.setText("");
         regPhoneField.setText("");
+        regIsUpdate.setChecked(false);
     }
 }
