@@ -64,6 +64,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.MyViewHolder> 
             isSync.setText(user.getIsSync() + "");
             if (user.getIsSync() != 1) {
                 userItem.setBackgroundColor(Color.RED);
+            }else {
+                userItem.setBackgroundColor(Color.WHITE);
             }
         }
     }
