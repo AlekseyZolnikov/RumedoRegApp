@@ -3,9 +3,7 @@ package ru.rumedo.rumedoregapp.database;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import java.util.ArrayList;
-
-import ru.rumedo.rumedoregapp.User;
+import ru.rumedo.rumedoregapp.pojo.User;
 
 public class UserDataReader {
 
@@ -20,7 +18,7 @@ public class UserDataReader {
             DatabaseHelper.COLUMN_PHONE,
             DatabaseHelper.COLUMN_EVENT,
             DatabaseHelper.COLUMN_REGDATE,
-            DatabaseHelper.COLUMN_ISSYNC,
+            DatabaseHelper.COLUMN_IS_SYNC,
 
     };
 

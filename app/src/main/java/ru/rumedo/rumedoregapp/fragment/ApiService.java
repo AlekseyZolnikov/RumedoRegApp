@@ -13,7 +13,8 @@ public interface ApiService {
             @Query("email") String email,
             @Query("phone") String phone,
             @Query("event") String event,
-            @Query("update") String isUpdate
+            @Query("city") String city
+//            @Query("update") String isUpdate
     );
     @GET("users/list")
     Call<ApiRequest> listUsers(

@@ -1,12 +1,6 @@
 package ru.rumedo.rumedoregapp.fragment;
 
 
-import android.annotation.SuppressLint;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -15,24 +9,18 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import ru.rumedo.rumedoregapp.Apapter.OnRecyclerViewClickListener;
 import ru.rumedo.rumedoregapp.R;
 import ru.rumedo.rumedoregapp.Apapter.UserAdapter;
-import ru.rumedo.rumedoregapp.User;
-import ru.rumedo.rumedoregapp.database.DatabaseHelper;
+import ru.rumedo.rumedoregapp.pojo.User;
 import ru.rumedo.rumedoregapp.database.UserDataReader;
 import ru.rumedo.rumedoregapp.database.UserDataSource;
 

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,122 +8,143 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragment.RegistrationFragment">
 
-    <TextView
-        android:id="@+id/reg_event_label"
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        android:text="@string/reg_event" />
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/reg_event_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="@string/reg_event" />
 
-    <EditText
-        android:id="@+id/reg_event_field"
-        app:layout_constraintTop_toBottomOf="@+id/reg_event_label"
-        android:layout_width="match_parent"
-        android:inputType="text"
-        android:hint="@string/enter_event"
-        android:layout_height="wrap_content"
-        android:imeOptions="actionDone"/>
+        <EditText
+            android:id="@+id/reg_event_field"
+            app:layout_constraintTop_toBottomOf="@+id/reg_event_label"
+            android:layout_width="match_parent"
+            android:inputType="text"
+            android:hint="@string/enter_event"
+            android:layout_height="wrap_content"
+            android:imeOptions="actionDone"/>
 
-    <TextView
-        android:id="@+id/reg_name_label"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/reg_event_field"
-        android:text="@string/reg_name_label" />
+        <TextView
+            android:id="@+id/reg_name_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/reg_event_field"
+            android:text="@string/reg_name_label" />
 
-    <EditText
-        android:id="@+id/reg_name_field"
-        app:layout_constraintTop_toBottomOf="@+id/reg_name_label"
-        android:layout_width="match_parent"
-        android:inputType="text"
-        android:hint="@string/reg_name_field"
-        android:layout_height="wrap_content"
-        android:imeOptions="actionDone"/>
+        <EditText
+            android:id="@+id/reg_name_field"
+            app:layout_constraintTop_toBottomOf="@+id/reg_name_label"
+            android:layout_width="match_parent"
+            android:inputType="text"
+            android:hint="@string/reg_name_field"
+            android:layout_height="wrap_content"
+            android:imeOptions="actionDone"/>
 
-    <TextView
-        android:id="@+id/reg_surname_label"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/reg_name_field"
-        android:text="@string/reg_surname_label" />
+        <TextView
+            android:id="@+id/reg_surname_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/reg_name_field"
+            android:text="@string/reg_surname_label" />
 
-    <EditText
-        android:id="@+id/reg_surname_field"
-        app:layout_constraintTop_toBottomOf="@+id/reg_surname_label"
-        android:layout_width="match_parent"
-        android:inputType="text"
-        android:hint="@string/reg_surname_field"
-        android:layout_height="wrap_content"
-        android:imeOptions="actionDone"/>
+        <EditText
+            android:id="@+id/reg_surname_field"
+            app:layout_constraintTop_toBottomOf="@+id/reg_surname_label"
+            android:layout_width="match_parent"
+            android:inputType="text"
+            android:hint="@string/reg_surname_field"
+            android:layout_height="wrap_content"
+            android:imeOptions="actionDone"/>
 
-    <TextView
-        android:id="@+id/reg_email_label"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/reg_surname_field"
-        android:text="@string/reg_email_label" />
+        <TextView
+            android:id="@+id/reg_email_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/reg_surname_field"
+            android:text="@string/reg_email_label" />
 
-    <EditText
-        android:id="@+id/reg_email_field"
-        app:layout_constraintTop_toBottomOf="@+id/reg_email_label"
-        android:layout_width="match_parent"
-        android:inputType="textEmailAddress"
-        android:hint="@string/reg_email_field"
-        android:layout_height="wrap_content"
-        android:imeOptions="actionDone"/>
+        <EditText
+            android:id="@+id/reg_email_field"
+            app:layout_constraintTop_toBottomOf="@+id/reg_email_label"
+            android:layout_width="match_parent"
+            android:inputType="textEmailAddress"
+            android:hint="@string/reg_email_field"
+            android:layout_height="wrap_content"
+            android:imeOptions="actionDone"/>
 
-    <TextView
-        android:id="@+id/reg_phone_label"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/reg_email_field"
-        android:text="@string/reg_phone_label" />
+        <TextView
+            android:id="@+id/reg_phone_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/reg_email_field"
+            android:text="@string/reg_phone_label" />
 
-    <EditText
-        android:id="@+id/reg_phone_field"
-        app:layout_constraintTop_toBottomOf="@+id/reg_phone_label"
-        android:layout_width="match_parent"
-        android:inputType="phone"
-        android:hint="@string/reg_phone_field"
-        android:layout_height="wrap_content"
-        android:imeOptions="actionDone"/>
+        <EditText
+            android:id="@+id/reg_phone_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
 
-    <CheckBox
-        android:id="@+id/reg_is_update"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="@+id/save_preference"
-        app:layout_constraintTop_toBottomOf="@+id/reg_phone_field" />
+            android:hint="@string/reg_phone_field"
+            android:imeOptions="actionDone"
+            android:inputType="phone"
+            app:layout_constraintTop_toBottomOf="@+id/reg_phone_label" />
 
-    <TextView
-        android:id="@+id/reg_label_is_update"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
-        android:text="Обновлять пользователя"
-        app:layout_constraintStart_toEndOf="@+id/reg_is_update"
-        app:layout_constraintTop_toBottomOf="@+id/reg_phone_field" />
+        <TextView
+            android:id="@+id/reg_city_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/reg_city_label"
+            app:layout_constraintTop_toBottomOf="@+id/reg_phone_field" />
 
-    <Button
-        android:id="@+id/save_preference"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:background="@color/colorPrimary"
-        android:text="@string/reg_btn"
-        android:textColor="@color/colorWhite"
-        app:layout_constraintTop_toBottomOf="@+id/reg_is_update"
-        tools:layout_editor_absoluteX="16dp" />
+        <AutoCompleteTextView
+            android:id="@+id/reg_city_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/reg_city_field"
+            app:layout_constraintTop_toBottomOf="@+id/reg_city_label" />
 
-    <ProgressBar
-        android:id="@+id/reg_progress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/save_preference" />
+        <CheckBox
+            android:id="@+id/reg_is_update"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@+id/save_preference"
+            app:layout_constraintTop_toBottomOf="@+id/reg_city_field" />
 
-</android.support.constraint.ConstraintLayout>
+        <TextView
+            android:id="@+id/reg_label_is_update"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="Обновлять пользователя"
+            app:layout_constraintStart_toEndOf="@+id/reg_is_update"
+            app:layout_constraintTop_toBottomOf="@+id/reg_city_field" />
+
+
+
+        <Button
+            android:id="@+id/save_preference"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:background="@color/colorPrimary"
+            android:text="@string/reg_btn"
+            android:textColor="@color/colorWhite"
+            app:layout_constraintTop_toBottomOf="@+id/reg_is_update"
+            tools:layout_editor_absoluteX="16dp" />
+
+        <ProgressBar
+            android:id="@+id/reg_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/save_preference" />
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.v4.widget.NestedScrollView>

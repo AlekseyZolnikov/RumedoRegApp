@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import java.io.Closeable;
 import java.io.IOException;
 
-import ru.rumedo.rumedoregapp.User;
+import ru.rumedo.rumedoregapp.pojo.User;
 
 public class UserDataSource implements Closeable {
 
@@ -39,7 +39,7 @@ public class UserDataSource implements Closeable {
         cv.put(DatabaseHelper.COLUMN_EMAIL, user.getEmail());
         cv.put(DatabaseHelper.COLUMN_PHONE, user.getPhone());
         cv.put(DatabaseHelper.COLUMN_EVENT, user.getEvent());
-        cv.put(DatabaseHelper.COLUMN_ISSYNC, user.getIsSync());
+        cv.put(DatabaseHelper.COLUMN_IS_SYNC, user.getIsSync());
 
         long insertId = database.insert(DatabaseHelper.TABLE_USERS, null, cv);
 
@@ -61,7 +61,7 @@ public class UserDataSource implements Closeable {
 
     public long updateUser(User user) {
         ContentValues cv = new ContentValues();
-        cv.put(DatabaseHelper.COLUMN_ISSYNC, 1);
+        cv.put(DatabaseHelper.COLUMN_IS_SYNC, 1);
         long insertId = database.update(DatabaseHelper.TABLE_USERS, cv,DatabaseHelper.COLUMN_EMAIL + " = ?", new String[]{user.getEmail()});
         return insertId;
     }

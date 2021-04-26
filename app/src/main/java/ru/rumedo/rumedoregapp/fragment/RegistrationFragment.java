@@ -1,7 +1,6 @@
 package ru.rumedo.rumedoregapp.fragment;
 
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -9,15 +8,20 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -25,8 +29,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import ru.rumedo.rumedoregapp.R;
-import ru.rumedo.rumedoregapp.User;
-import ru.rumedo.rumedoregapp.database.UserDataReader;
+import ru.rumedo.rumedoregapp.pojo.User;
 import ru.rumedo.rumedoregapp.database.UserDataSource;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -39,6 +42,7 @@ public class RegistrationFragment extends Fragment {
     private EditText regSurnameField;
     private EditText regEmailField;
     private EditText regPhoneField;
+    private AutoCompleteTextView regCityField;
     private CheckBox regIsUpdate;
     private Button regButton;
     private ProgressBar regProgress;
@@ -66,7 +70,7 @@ public class RegistrationFragment extends Fragment {
     }
 
     private void initPreference() {
-        sharedPref = getActivity().getPreferences(MODE_PRIVATE);
+        sharedPref = Objects.requireNonNull(getActivity()).getPreferences(MODE_PRIVATE);
         loadPreferences(sharedPref);
     }
 
@@ -85,6 +89,7 @@ public class RegistrationFragment extends Fragment {
                 String surname = regSurnameField.getText().toString();
                 String email = regEmailField.getText().toString();
                 String phone = regPhoneField.getText().toString();
+                String city = regCityField.getText().toString();
                 String isUpdate = Boolean.toString(regIsUpdate.isChecked());
 
                 if (TextUtils.isEmpty(email)) {
@@ -100,6 +105,7 @@ public class RegistrationFragment extends Fragment {
                 user.setEmail(email);
                 user.setPhone(phone);
                 user.setEvent(event);
+                user.setCity(city);
                 user.setIsSync(1);
 
                 regProgress.setVisibility(View.VISIBLE);
@@ -107,7 +113,7 @@ public class RegistrationFragment extends Fragment {
                 imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                 getActivity().getCurrentFocus();
 
-                requestRetrofit(user, isUpdate);
+                sendUserData(user, isUpdate);
             }
         });
     }
@@ -120,6 +126,14 @@ public class RegistrationFragment extends Fragment {
         regPhoneField = view.findViewById(R.id.reg_phone_field);
         regProgress = view.findViewById(R.id.reg_progress);
         regIsUpdate = view.findViewById(R.id.reg_is_update);
+        regCityField = view.findViewById(R.id.reg_city_field);
+
+        String[] cities = getResources().getStringArray(R.array.cities);
+        List<String> cityList = Arrays.asList(cities);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                getContext(), android.R.layout.simple_dropdown_item_1line, cityList);
+        regCityField.setAdapter(adapter);
+
     }
 
     private void initRetrofit() {
@@ -143,9 +157,9 @@ public class RegistrationFragment extends Fragment {
         regEventField.setText(adminName);
     }
 
-    private void requestRetrofit(final User user, String isUpdate) {
+    private void sendUserData(final User user, String isUpdate) {
         String skey = "rumedo_rest_api_key";
-        apiService.addUser(skey, user.getName(),user.getSurname(),user.getEmail(),user.getPhone(), user.getEvent(), isUpdate)
+        apiService.addUser(skey, user.getName(),user.getSurname(),user.getEmail(),user.getPhone(), user.getEvent(), user.getCity()/*isUpdate*/)
             .enqueue(new Callback<ApiRequest>() {
                 @Override
                 public void onResponse(@NonNull Call<ApiRequest> call, @NonNull Response<ApiRequest> response) {

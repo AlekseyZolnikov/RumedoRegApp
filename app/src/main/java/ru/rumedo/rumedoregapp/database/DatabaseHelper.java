@@ -19,7 +19,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_PHONE = "phone";
     public static final String COLUMN_EVENT = "event";
     public static final String COLUMN_REGDATE = "regdate";
-    public static final String COLUMN_ISSYNC = "is_sync";
+    public static final String COLUMN_IS_SYNC = "is_sync";
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -38,7 +38,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     + COLUMN_PHONE + " TEXT, "
                     + COLUMN_EVENT + " TEXT, "
                     + COLUMN_REGDATE + " TEXT, "
-                    + COLUMN_ISSYNC + " INTEGER" +
+                    + COLUMN_IS_SYNC + " INTEGER" +
                 ");"
         );
     }
@@ -46,7 +46,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         String upgradeQuery = "ALTER TABLE " + TABLE_USERS + " ADD COLUMN "
-                + COLUMN_ISSYNC + " INTEGER";
+                + COLUMN_IS_SYNC + " INTEGER";
         db.execSQL(upgradeQuery);
     }
 }

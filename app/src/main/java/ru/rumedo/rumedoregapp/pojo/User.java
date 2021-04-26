@@ -1,4 +1,4 @@
-package ru.rumedo.rumedoregapp;
+package ru.rumedo.rumedoregapp.pojo;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -25,6 +25,10 @@ public class User {
     @SerializedName("regdate")
     @Expose
     private String regdate;
+
+    @SerializedName("city")
+    @Expose
+    private String city;
 
     private int isSync;
 
@@ -90,5 +94,13 @@ public class User {
 
     public void setIsSync(int isSync) {
         this.isSync = isSync;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
     }
 }

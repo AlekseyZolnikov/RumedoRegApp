@@ -3,7 +3,7 @@ package ru.rumedo.rumedoregapp.fragment;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import ru.rumedo.rumedoregapp.User;
+import ru.rumedo.rumedoregapp.pojo.User;
 
 public class ApiRequest {
     @SerializedName("status")

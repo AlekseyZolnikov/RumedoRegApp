@@ -33,4 +33,14 @@
     <string name="reg_phone_label">Телефон</string>
     <string name="reg_phone_field">Введите телефон</string>
     <string name="is_sync">is sync</string>
+    <string name="reg_city_field">Введите город</string>
+    <string name="reg_city_label">Укажите город</string>
+
+    <string-array name="cities">
+        <item>Москва</item>
+        <item>Казань</item>
+        <item>Новгород</item>
+        <item>Новосибирск</item>
+        <item>Воркута</item>
+    </string-array>
 </resources>
